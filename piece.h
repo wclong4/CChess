@@ -5,7 +5,9 @@
 
 /** A chess piece */
 #include <stdbool.h>
-
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 /** Piece type char for a king */
 #define KING 'k'
 
@@ -38,4 +40,18 @@ typedef struct {
      b = bishop
   */
   char type;
+
+  /**
+   * true if has moved, this is really just used for pawns
+   */
+  bool hasMoved;
 } Piece;
+
+/**
+ * This makes a piece with a specific color and type
+ */
+Piece * makePiece(bool dark, char type);
+/**
+ * This frees the piece
+ */
+Piece * freePiece(Piece * piece);

@@ -8,7 +8,11 @@
 
 int main()
 {
-  Piece board[8][8];
-  
+  Piece * piece = makePiece(1, KING);\
+  assert(piece != NULL);
+  assert(piece->dark == 1);
+  assert(piece->type == KING);
+  free(piece);
+
 }
 

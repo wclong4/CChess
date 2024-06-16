@@ -13,11 +13,11 @@ int main(int argc, char *argv[]) {
   char * string2 = toStringBoard(board);
 
   //printBoard(board);
-  printf("%s", string1);
-  printf("%s", string2);
+  //printf("%s", string1);
+  //printf("%s", string2);
 
-  //debugPrintBoard(emptyBoard);
-  //debugPrintBoard(board);
+  debugPrintBoard(emptyBoard);
+  debugPrintBoard(board);
 
   freeBoard(board);
   freeBoard(emptyBoard);

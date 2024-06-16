@@ -203,7 +203,6 @@ char * toStringBoard(Piece ** board) {
         buffer[len++] = ' ';
         buffer[len++] = ' ';
       }
-      // each time at most 3 chars are added, so we add 3 each time just to be safe
     }
     buffer[len] = '\n';
     len++;

@@ -13,6 +13,8 @@ Piece * makePiece(bool dark, char type) {
   piece->dark = dark;
   piece->type = type;
   piece->hasMoved = false;
+  piece->inDanger = false;
+  piece->enPassantAble = false;
 }
 /**
  * This frees the piece

@@ -21,7 +21,6 @@ int main()
 "2 p0 p0 p0 p0 p0 p0 p0 p0 2 \n"
 "1 r0 n0 b0 q0 k0 b0 n0 r0 1 \n"
 "  a  b  c  d  e  f  g  h     \n";
-  FILE output = 
   printf("%s", actual);
 
   printf("%s", expected);

@@ -45,6 +45,14 @@ typedef struct {
    * true if has moved, this is really just used for pawns
    */
   bool hasMoved;
+  /**
+   * true if in danger
+   */
+  bool inDanger;
+  /**
+   * Used specifically for pawns, true if a pawn has just moved forwards 2 spaces
+   */
+  bool enPassantAble;
 } Piece;
 
 /**

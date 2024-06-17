@@ -364,7 +364,7 @@ void queenTest2()
 /**
  * This tests the pawn moving up 2 spaces
  */
-void blackPawnTest1() {
+void blackPawnTest() {
   Piece ** board = initEmptyBoard();
   // y, x the coordinates for the board are backwards
   // also this is the test for the king moveset
@@ -461,6 +461,102 @@ void blackPawnTest1() {
   free(pawn12);
   free(pawn14);
 }
+/**
+ * Tests the white pawn
+ */
+void whitePawnTest() 
+{
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the king moveset
+  Piece * pawn23 = makePiece(0, PAWN);
+  board[2][3] = * pawn23;
+  debugPrintBoard(board);
+  // move up 2
+  // x1, y1, x2, y2
+  bool actualMove1 = validMove(3,2,3,2-2,board);
+  bool actualMove2 = validMove(3,2,3,2-2-2,board);// bad, should not be able to jump twice
+  bool actualMove3 = validMove(3,2,3+1,2-1,board);// bad
+  bool actualMove4 = validMove(3,2,3-1,2-1,board);// bad
+
+  assert(actualMove1);
+  assert(!actualMove2);
+  assert(!actualMove3);
+  assert(!actualMove4);
+
+  Piece * pawn13 = makePiece(1, PAWN);
+  board[1][3] = * pawn13;
+
+  bool actualMove5 = validMove(3,2,3,2-2,board);
+  bool actualMove6 = validMove(3,2,3,2-2-2,board);// bad, should not be able to jump twice
+  bool actualMove7 = validMove(3,2,3+1,2-1,board);// bad
+  bool actualMove8 = validMove(3,2,3-1,2-1,board);// bad
+
+  assert(!actualMove5);
+  assert(!actualMove6);
+  assert(!actualMove7);
+  assert(!actualMove8);
+
+  debugPrintBoard(board);
+
+  Piece * pawn12 = makePiece(1, PAWN);
+  board[1][2] = * pawn12;
+
+  bool actualMove9 = validMove(3,2,3,2-2,board);
+  bool actualMove10 = validMove(3,2,3,2-2-2,board);// bad, should not be able to jump twice
+  bool actualMove11 = validMove(3,2,3+1,2-1,board);// bad
+  bool actualMove12 = validMove(3,2,3-1,2-1,board);// bad
+
+  assert(!actualMove9);
+  assert(!actualMove10);
+  assert(!actualMove11);
+  assert(actualMove12);
+
+  debugPrintBoard(board);
+
+  Piece * pawn14 = makePiece(1, PAWN);
+  board[1][4] = * pawn14;
+
+  bool actualMove13 = validMove(3,2,3,2-2,board);//bad
+  bool actualMove14 = validMove(3,2,3,2-2-2,board);// bad, should not be able to jump twice
+  bool actualMove15 = validMove(3,2,3+1,2-1,board);
+  bool actualMove16 = validMove(3,2,3-1,2-1,board);
+
+  assert(!actualMove13);
+  assert(!actualMove14);
+  assert(actualMove15);
+  assert(actualMove16);
+
+  debugPrintBoard(board);
+
+  Piece * pawn22 = makePiece(1, PAWN);
+  board[2][2] = * pawn22;
+  board[2][2].enPassantAble = 1;
+  bool actualMove17 = validMove(3,2,2,2,board);
+
+  assert(actualMove17);
+
+  Piece * pawn24 = makePiece(1, PAWN);
+  board[2][4] = * pawn24;
+  board[2][4].enPassantAble = 1;
+  bool actualMove18 = validMove(3,2,4,2,board);
+
+  assert(actualMove18);
+  // make it so en passant is not possible
+  board[2][2].enPassantAble = 0;
+  board[2][4].enPassantAble = 0;
+  
+  bool actualMove20 = validMove(3,2,2,2,board);
+  assert(!actualMove20);
+
+  bool actualMove21 = validMove(3,2,4,2,board);
+  assert(!actualMove21);
+ 
+  debugPrintBoard(board);
+
+  freeBoard(board);
+ 
+}
 int main()
 {
   kingTest();
@@ -468,5 +564,6 @@ int main()
   bishopTest();
   queenTest1();
   queenTest2();
-  blackPawnTest1();
+  blackPawnTest();
+  whitePawnTest();
 }

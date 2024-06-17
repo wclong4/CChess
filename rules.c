@@ -113,8 +113,47 @@ static bool pawnCheck(int initx, int inity, int finalx, int finaly, Piece ** boa
       return true;
     }
     return false;
-  } else { // this is the moveset for the white pawn
-
+  } else { // this is the moveset for the white pawn, it is the same except where we add 1 to y we subtract 1
+    // NON TAKING MOVES
+    // have to let the pawn move forwards twice if it has not moved yet
+    // but the space it moves to must be empty, again this is [y][x] NOT x, y
+    // and the space right in front of it must be empty, it cannot jump over pieces
+    if (!pawn->hasMoved && board[inity - 2][initx].type == 0 && board[inity - 1][initx].type == 0) {
+      if ((finalx == initx) && finaly == inity - 2) {
+        pawn->hasMoved = true;
+        // every piece must have this set to false after each turn
+        // to make sure that the special pawn moveset cannot be used when it should not
+        pawn->enPassantAble = true;
+        return true;
+      }
+    }
+    // this is just moving up 1, there cannot be a piece there
+    if ((finalx == initx) && (finaly == inity - 1) && board[inity - 1][initx].type == 0) {
+      pawn->hasMoved = true;
+      return true;
+    }
+    
+    // TAKING MOVES, MUST CHECK PIECE COLOR!
+    // normal pawn moveset stuff
+    // this is only allowed if there is already a piece there of the opposite type, the piece is taken also
+    if ((finalx == initx - 1) && finaly == inity - 1 && board[inity - 1][initx - 1].type != 0 && board[inity - 1][initx - 1].dark == 1) {
+      pawn->hasMoved = true;
+      return true;
+    } 
+    if ((finalx == initx + 1) && finaly == inity - 1 && board[inity - 1][initx + 1].type != 0 && board[inity - 1][initx + 1].dark == 1) {
+      pawn->hasMoved = true;
+      return true;
+    } 
+    // special en passant moveset
+    if ((finalx == initx + 1) && finaly == inity && board[inity][initx + 1].enPassantAble == 1 && board[inity][initx + 1].dark == 1) {
+      pawn->hasMoved = true;
+      return true;
+    }
+    if ((finalx == initx - 1) && finaly == inity && board[inity][initx - 1].enPassantAble == 1 && board[inity][initx - 1].dark == 1) {
+      pawn->hasMoved = true;
+      return true;
+    }
+    return false;
   }
 
 }

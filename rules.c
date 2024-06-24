@@ -32,6 +32,7 @@ static bool kingCheck(int initx, int inity, int finalx, int finaly, Piece ** boa
     bool validQSideRook = false;
     bool validKSideRook = false;
     Piece queensideRook;
+    
     if (initx + 4 <= 7) {
       queensideRook = board[inity][initx + 4];
       validQSideRook = true;

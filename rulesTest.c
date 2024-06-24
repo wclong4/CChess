@@ -7,10 +7,13 @@
 #include <string.h>
 
 #include "rules.h"
+
+
+
 /**
  * This is the test for the king moveset
  */
-void kingTest() 
+void kingTest1() 
 {
   Piece ** board = initEmptyBoard();
   // y, x the coordinates for the board are backwards
@@ -94,6 +97,274 @@ void kingTest()
   free(king00);
 }
 /**
+ * another test for the king where we test for collision
+ * 
+ */
+void kingTest2() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the king moveset
+  Piece * king33 = makePiece(1, KING);
+  board[3][3] = * king33;
+  debugPrintBoard(board);
+  // make same colored pawns and check that it cannot move there
+  Piece * pawn32 = makePiece(1, PAWN);
+  board[3][3-1] = * pawn32;
+
+  Piece * pawn23 = makePiece(1, PAWN);
+  board[3-1][3] = * pawn23;
+
+  Piece * pawn22 = makePiece(1, PAWN);
+  board[3-1][3-1] = * pawn22;
+
+  Piece * pawn43 = makePiece(1, PAWN);
+  board[3+1][3] = * pawn43;
+
+  Piece * pawn34 = makePiece(1, PAWN);
+  board[3][3+1] = * pawn34;
+
+  Piece * pawn44 = makePiece(1, PAWN);
+  board[3+1][3+1] = * pawn44;
+
+  Piece * pawn42 = makePiece(1, PAWN);
+  board[3+1][3-1] = * pawn42;
+
+  Piece * pawn24 = makePiece(1, PAWN);
+  board[3-1][3+1] = * pawn24;
+
+  debugPrintBoard(board);
+  bool actualMove1 = validMove(3,3,3+1,3,board);
+
+  bool actualMove2 = validMove(3,3,3,3+1,board);
+
+  bool actualMove3 = validMove(3,3,3-1,3,board);
+
+  bool actualMove4 = validMove(3,3,3,3-1,board);
+
+  bool actualMove5 = validMove(3,3,3-1,3+1,board);
+
+  bool actualMove6 = validMove(3,3,3+1,3-1,board);
+
+  bool actualMove7 = validMove(3,3,3-1,3-1,board);
+
+  bool actualMove8 = validMove(3,3,3+1,3+1,board);
+
+  bool actualMove9 = validMove(2,2,3+1,3+1,board);
+
+  bool actualMove10 = validMove(3,3,3+2,3+1,board);
+  
+  bool actualMove11 = validMove(3,3,-1,3+1,board);
+
+  bool actualMove12 = validMove(3,3,-1,-1,board);
+
+  bool actualMove13 = validMove(3,3,3,3,board);
+
+  assert(!actualMove1);
+  assert(!actualMove2);
+  assert(!actualMove3);
+  assert(!actualMove4);
+  assert(!actualMove5);
+  assert(!actualMove6);
+  assert(!actualMove7);
+  assert(!actualMove8);
+
+  assert(!actualMove9);
+  assert(!actualMove10);
+  assert(!actualMove11);
+  assert(!actualMove12);
+  assert(!actualMove13);
+
+  free(king33);
+  free(pawn32);
+  free(pawn23);
+  free(pawn22);
+  free(pawn43);
+  free(pawn34);
+  free(pawn44);
+  free(pawn42);
+  free(pawn24);
+
+  freeBoard(board);
+}
+/**
+ *  also we test for castling functionality
+ */
+void kingTest3() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is a test for the king moveset
+  Piece * king03 = makePiece(1, KING);
+  board[0][3] = * king03;
+  Piece * rook00 = makePiece(1, ROOK);
+  board[0][0] = * rook00;
+  Piece * rook07 = makePiece(1, ROOK);
+  board[0][7] = * rook07;
+  debugPrintBoard(board);
+  // check to see if it fails when in the king is in danger or passes through or ends on a danger square
+  board[0][3].inDanger = 1;
+  bool actualMove1 = validMove(3,0,1,0,board);
+  bool actualMove2 = validMove(3,0,5,0,board);
+  assert(!actualMove1);
+  assert(!actualMove2);
+  board[0][3].inDanger = 0;
+  board[0][2].inDanger = 1;
+  board[0][4].inDanger = 1;
+  bool actualMove3 = validMove(3,0,1,0,board);
+  bool actualMove4 = validMove(3,0,5,0,board);
+  assert(!actualMove3);
+  assert(!actualMove4);
+  board[0][2].inDanger = 0;
+  board[0][4].inDanger = 0;
+  board[0][1].inDanger = 1;
+  board[0][5].inDanger = 1;
+  bool actualMove5 = validMove(3,0,1,0,board);
+  bool actualMove6 = validMove(3,0,5,0,board);
+  assert(actualMove5);
+  assert(!actualMove6);
+  debugPrintBoard(board);
+  // move rook back
+  free(rook00);
+  Piece * empty1 =  makePiece(0,0);
+  board[0][2] = * empty1;
+  Piece * rook002 =  makePiece(1, ROOK);
+  board[0][0] = * rook002;
+
+  board[0][1].inDanger = 0;
+  board[0][5].inDanger = 0;
+  board[0][0].inDanger = 1;
+  board[0][6].inDanger = 1;
+  board[0][7].inDanger = 1;
+  debugPrintBoard(board);
+
+  bool actualMove7 = validMove(3,0,1,0,board);
+  bool actualMove8 = validMove(3,0,5,0,board);
+  assert(actualMove7);
+  assert(actualMove8);
+  debugPrintBoard(board);
+
+  // check to see if it works under normal conditions
+  // move rooks back
+  free(rook002);
+  Piece * empty2 =  makePiece(0,0);
+  board[0][2] = * empty2;
+  Piece * rook003 = makePiece(1, ROOK);
+  board[0][0] = * rook003;
+
+  free(rook07);
+  Piece * empty3 =  makePiece(0,0);
+  board[0][4] = * empty3;
+  Piece * rook072 = makePiece(1, ROOK);
+  board[0][7] = * rook072;
+
+  board[0][0].inDanger = 0;
+  board[0][6].inDanger = 0;
+  board[0][7].inDanger = 0;
+  bool actualMoveNormal1 = validMove(3,0,1,0,board);
+  bool actualMoveNormal2 = validMove(3,0,5,0,board);
+  assert(actualMoveNormal1);
+  assert(actualMoveNormal2);
+
+
+  free(king03);
+  free(rook072);
+  free(rook003);
+  free(empty1);
+  free(empty2);
+  free(empty3);
+
+  freeBoard(board);
+}
+/**
+ *  test for castling collision functionality
+ */
+void kingTest4() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is a test for the king moveset
+  Piece * king03 = makePiece(1, KING);
+  board[0][3] = * king03;
+  Piece * rook00 = makePiece(1, ROOK);
+  board[0][0] = * rook00;
+  Piece * rook07 = makePiece(1, ROOK);
+  board[0][7] = * rook07;
+  Piece * pawn01 = makePiece(1, PAWN);
+  board[0][1] = * pawn01;
+  Piece * pawn06 = makePiece(1, PAWN);
+  board[0][6] = * pawn06;
+  debugPrintBoard(board);
+  bool actualMove1 = validMove(3,0,1,0,board);
+  bool actualMove2 = validMove(3,0,5,0,board);
+  assert(!actualMove1);
+  assert(!actualMove2);
+  free(king03);
+  free(rook00);
+  free(rook07);
+  free(pawn01);
+  free(pawn06);
+  freeBoard(board);
+
+}
+/**
+ *  test for castling collision functionality
+ */
+void kingTest5() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is a test for the king moveset
+  Piece * king03 = makePiece(1, KING);
+  board[0][3] = * king03;
+  Piece * rook00 = makePiece(1, ROOK);
+  board[0][0] = * rook00;
+  Piece * rook07 = makePiece(1, ROOK);
+  board[0][7] = * rook07;
+  Piece * pawn02 = makePiece(1, PAWN);
+  board[0][2] = * pawn02;
+  Piece * pawn05 = makePiece(1, PAWN);
+  board[0][5] = * pawn05;
+  debugPrintBoard(board);
+  bool actualMove1 = validMove(3,0,1,0,board);
+  bool actualMove2 = validMove(3,0,5,0,board);
+  assert(!actualMove1);
+  assert(!actualMove2);
+  free(king03);
+  free(rook00);
+  free(rook07);
+  free(pawn02);
+  free(pawn05);
+  freeBoard(board);
+
+}
+/**
+ *  test for castling collision functionality
+ */
+void kingTest6() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is a test for the king moveset
+  Piece * king03 = makePiece(1, KING);
+  board[0][3] = * king03;
+  Piece * rook00 = makePiece(1, ROOK);
+  board[0][0] = * rook00;
+  Piece * rook07 = makePiece(1, ROOK);
+  board[0][7] = * rook07;
+  Piece * pawn02 = makePiece(1, PAWN);
+  board[0][2] = * pawn02;
+  Piece * pawn04 = makePiece(1, PAWN);
+  board[0][4] = * pawn04;
+  debugPrintBoard(board);
+  bool actualMove1 = validMove(3,0,1,0,board);
+  bool actualMove2 = validMove(3,0,5,0,board);
+  assert(!actualMove1);
+  assert(!actualMove2);
+  free(king03);
+  free(rook00);
+  free(rook07);
+  free(pawn02);
+  free(pawn04);
+  freeBoard(board);
+
+}
+/**
  * This tests the rook's moveset
  */
 void rookTest ()
@@ -103,7 +374,7 @@ void rookTest ()
   // also this is the test for the rook moveset
   Piece * rook33 = makePiece(1, ROOK);
   board[3][3] = * rook33;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
 
   // down
   bool actualMove1 = validMove(3,3,3+1,3,board);
@@ -172,7 +443,7 @@ void rookTest ()
 
   Piece * pawn35 = makePiece(0, PAWN);
   board[3][5] = * pawn35;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // right
   bool actualMove1c = validMove(3,3,3+1,3,board);
   bool actualMove2c = validMove(3,3,3+2,3,board);
@@ -223,7 +494,7 @@ void rookTest ()
 
   Piece * pawn35d = makePiece(1, PAWN);
   board[3][5] = * pawn35d;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // right
   bool actualMove1cd = validMove(3,3,3+1,3,board);
   bool actualMove2cd = validMove(3,3,3+2,3,board);// bad
@@ -284,7 +555,7 @@ void bishopTest()
   // also this is the test for the bishop moveset
   Piece * bishop33 = makePiece(1, BISHOP);
   board[3][3] = * bishop33;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // I accidentally started with actualMove2, so the first move is labeled as the second, just ignore this
   // + + 
   bool actualMove2 = validMove(3,3,3+1,3+1,board);
@@ -350,7 +621,7 @@ void bishopTest()
 
   Piece * pawn35 = makePiece(0, PAWN);
   board[7][7] = * pawn35;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // + + up up
   bool actualMove2l = validMove(3,3,3+1,3+1,board);
   bool actualMove3l = validMove(3,3,3+2,3+2,board);
@@ -410,7 +681,7 @@ void bishopTest()
 
   Piece * pawn35d = makePiece(1, PAWN);
   board[7][7] = * pawn35d;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // + + up up
   bool actualMove2d = validMove(3,3,3+1,3+1,board);
   bool actualMove3d = validMove(3,3,3+2,3+2,board);
@@ -479,7 +750,7 @@ void queenTest1()
   // also this is the test for the bishop moveset
   Piece * queen33 = makePiece(1, QUEEN);
   board[3][3] = * queen33;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // I accidentally started with actualMove2, so the first move is labeled as the second, just ignore this
   // + + 
   bool actualMove2 = validMove(3,3,3+1,3+1,board);
@@ -545,7 +816,7 @@ void queenTest1()
 
   Piece * pawn35 = makePiece(0, PAWN);
   board[7][7] = * pawn35;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // + + up up
   bool actualMove2l = validMove(3,3,3+1,3+1,board);
   bool actualMove3l = validMove(3,3,3+2,3+2,board);
@@ -605,7 +876,7 @@ void queenTest1()
 
   Piece * pawn35d = makePiece(1, PAWN);
   board[7][7] = * pawn35d;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // + + up up
   bool actualMove2d = validMove(3,3,3+1,3+1,board);
   bool actualMove3d = validMove(3,3,3+2,3+2,board);
@@ -674,7 +945,7 @@ void queenTest2()
   // also this is the test for the rook moveset
   Piece * rook33 = makePiece(1, ROOK);
   board[3][3] = * rook33;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
 
   // down
   bool actualMove1 = validMove(3,3,3+1,3,board);
@@ -743,7 +1014,7 @@ void queenTest2()
 
   Piece * pawn35 = makePiece(0, PAWN);
   board[3][5] = * pawn35;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // right
   bool actualMove1c = validMove(3,3,3+1,3,board);
   bool actualMove2c = validMove(3,3,3+2,3,board);
@@ -794,7 +1065,7 @@ void queenTest2()
 
   Piece * pawn35d = makePiece(1, PAWN);
   board[3][5] = * pawn35d;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // right
   bool actualMove1cd = validMove(3,3,3+1,3,board);
   bool actualMove2cd = validMove(3,3,3+2,3,board);// bad
@@ -855,7 +1126,7 @@ void blackPawnTest() {
   // also this is the test for the pawn moveset
   Piece * pawn13 = makePiece(1, PAWN);
   board[1][3] = * pawn13;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // x1, y1, x2, y2
   bool actualMove1 = validMove(3,1,3,1+2,board);
   bool actualMove2 = validMove(3,1,3,1+2+2,board);// bad, should not be able to jump twice
@@ -880,7 +1151,7 @@ void blackPawnTest() {
   assert(!actualMove7);
   assert(!actualMove8);
 
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
 
   Piece * pawn22 = makePiece(0, PAWN);
   board[2][2] = * pawn22;
@@ -895,7 +1166,7 @@ void blackPawnTest() {
   assert(!actualMove11);
   assert(actualMove12);
 
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
 
   Piece * pawn24 = makePiece(0, PAWN);
   board[2][4] = * pawn24;
@@ -910,7 +1181,7 @@ void blackPawnTest() {
   assert(actualMove15);
   assert(actualMove16);
 
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
 
   Piece * pawn12 = makePiece(0, PAWN);
   board[1][2] = * pawn12;
@@ -935,7 +1206,7 @@ void blackPawnTest() {
   bool actualMove21 = validMove(3,1,4,1,board);
   assert(!actualMove21);
  
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
 
   freeBoard(board);
   free(pawn13);
@@ -955,7 +1226,7 @@ void whitePawnTest()
   // also this is the test for the pawn moveset
   Piece * pawn23 = makePiece(0, PAWN);
   board[2][3] = * pawn23;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // x1, y1, x2, y2
   bool actualMove1 = validMove(3,2,3,2-2,board);
   bool actualMove2 = validMove(3,2,3,2-2-2,board);// bad, should not be able to jump twice
@@ -980,7 +1251,7 @@ void whitePawnTest()
   assert(!actualMove7);
   assert(!actualMove8);
 
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
 
   Piece * pawn12 = makePiece(1, PAWN);
   board[1][2] = * pawn12;
@@ -995,7 +1266,7 @@ void whitePawnTest()
   assert(!actualMove11);
   assert(actualMove12);
 
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
 
   Piece * pawn14 = makePiece(1, PAWN);
   board[1][4] = * pawn14;
@@ -1010,7 +1281,7 @@ void whitePawnTest()
   assert(actualMove15);
   assert(actualMove16);
 
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
 
   Piece * pawn22 = makePiece(1, PAWN);
   board[2][2] = * pawn22;
@@ -1035,7 +1306,7 @@ void whitePawnTest()
   bool actualMove21 = validMove(3,2,4,2,board);
   assert(!actualMove21);
  
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
 
   freeBoard(board);
   free(pawn24);
@@ -1179,7 +1450,7 @@ void knightTest() {
   assert(actualMove8cd);
 
 
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // free memory
   free(knight33);
   free(pawn45d);
@@ -1205,7 +1476,13 @@ void knightTest() {
 }
 int main()
 {
-  kingTest();
+  kingTest1();
+  kingTest2();
+  kingTest3();
+  kingTest4();
+  kingTest5();
+  kingTest6();
+
   rookTest();
   bishopTest();
   queenTest1();

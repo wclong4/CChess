@@ -26,7 +26,10 @@ Piece ** initBoard() {
   for (int i = 0; i < 8 ; i++) {
     for (int j = 0; j < 8 ; j++) {
       board[i][j].type = 0;
+      board[i][j].enPassantAble = 0;
       board[i][j].dark = 0;
+      board[i][j].hasMoved = 0;
+      board[i][j].inDanger = 0;
     }
   }
   // setting up pawns
@@ -110,7 +113,10 @@ Piece ** initEmptyBoard() {
   for (int i = 0; i < 8 ; i++) {
     for (int j = 0; j < 8 ; j++) {
       board[i][j].type = 0;
+      board[i][j].enPassantAble = 0;
       board[i][j].dark = 0;
+      board[i][j].hasMoved = 0;
+      board[i][j].inDanger = 0;
     }
   }
   return board;

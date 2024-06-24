@@ -17,10 +17,83 @@
  * @param board the chess board
 */
 static bool kingCheck(int initx, int inity, int finalx, int finaly, Piece ** board) {
-  // the king can move in a square
+  // first check for castling
+  // the king cannot move into any square that is in danger, so we must check 
+  // if a piece is in danger before moving there
+  
+  // "Castling is permitted only if neither the king nor the rook has previously moved; 
+  // the squares between the king and the rook are vacant; and the king does not leave, 
+  // cross over, or finish on a square attacked by an enemy piece." from  https://en.wikipedia.org/wiki/Castling
+
+  // also this code is special because it doesn't just check to see if the pieces can move there, it actually
+  // moves the rook there when it does castling
+  Piece king = board[inity][initx];
+  if (king.hasMoved == false && king.inDanger == false) {
+    bool validQSideRook = false;
+    bool validKSideRook = false;
+    Piece queensideRook;
+    if (initx + 4 <= 7) {
+      queensideRook = board[inity][initx + 4];
+      validQSideRook = true;
+    }
+    Piece kingsideRook;
+    if (initx - 3 >= 0) {
+      kingsideRook = board[inity][initx - 3];
+      validKSideRook = true;
+    }
+    // queenside castling check
+    if (validQSideRook && queensideRook.hasMoved == false && queensideRook.type == ROOK && queensideRook.dark == king.dark) {
+      // move 2 right
+      if (finalx == initx + 2 && finaly == inity) {
+        // square 1 check, square 2 check, etc 
+        // s1 and s2 must be empty and not in danger
+        // s3 must be empty
+        bool s1Check = board[inity][initx + 1].inDanger == false && board[inity][initx + 1].type == 0;
+        bool s2Check = board[inity][initx + 2].inDanger == false && board[inity][initx + 2].type == 0;
+        bool s3Check = board[inity][initx + 3].type == 0;
+        if (s1Check && s2Check && s3Check) {
+          // this is a little sus
+          board[inity][initx + 4] = board[finaly][finalx - 1];
+          board[finaly][finalx - 1] = queensideRook;
+          queensideRook.hasMoved = 1;
+          king.hasMoved = 1;
+          return true;
+        }
+      }
+    }
+    // kingside castling check
+    if (validKSideRook && kingsideRook.hasMoved == false && kingsideRook.type == ROOK && kingsideRook.dark == king.dark) {
+      // move 2 left
+      if (finalx == initx - 2 && finaly == inity) {
+        // square 1 check, square 2 check, etc 
+        // s1 and s2 must be empty and not in danger
+        // s3 must be empty
+        bool s1Check = board[inity][initx - 1].inDanger == false && board[inity][initx - 1].type == 0;
+        bool s2Check = board[inity][initx - 2].type == 0;
+        if (s1Check && s2Check) {
+          board[inity][initx - 3 ] = board[finaly][finalx + 1];
+          board[finaly][finalx + 1] = kingsideRook;
+          queensideRook.hasMoved = 1;
+          king.hasMoved = 1;
+          return true;
+        }
+      }
+    }
+  }
+  // second we check to see if it is in the square
+  // the king can move in a square for its normal moveset
   if (finalx == initx - 1 || finalx == initx || finalx == initx + 1 ) {
     if (finaly == inity - 1 || finaly == inity || finaly == inity + 1 ) {
-      return true;
+      // the king cannot move into squares that are in danger
+      if (board[finaly][finalx].inDanger == false) {
+        // it can move into empty safe spaces
+        if (board[finaly][finalx].type == 0) {
+          return true;
+        } else if (board[finaly][finalx].dark != king.dark) { // or capture pieces if that does not put it in danger
+          return true;
+        }
+      }
+
     }
   }
   return false;

@@ -29,7 +29,8 @@ Piece ** initBoard() {
       board[i][j].enPassantAble = 0;
       board[i][j].dark = 0;
       board[i][j].hasMoved = 0;
-      board[i][j].inDanger = 0;
+      board[i][j].inDangerWhite = 0;
+      board[i][j].inDangerBlack = 0;
     }
   }
   // setting up pawns
@@ -116,7 +117,9 @@ Piece ** initEmptyBoard() {
       board[i][j].enPassantAble = 0;
       board[i][j].dark = 0;
       board[i][j].hasMoved = 0;
-      board[i][j].inDanger = 0;
+      board[i][j].inDangerWhite = 0;
+      board[i][j].inDangerBlack = 0;
+
     }
   }
   return board;

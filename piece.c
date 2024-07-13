@@ -13,7 +13,8 @@ Piece * makePiece(bool dark, char type) {
   piece->dark = dark;
   piece->type = type;
   piece->hasMoved = false;
-  piece->inDanger = false;
+  piece->inDangerWhite = false;
+  piece->inDangerBlack = false;
   piece->enPassantAble = false;
 }
 /**

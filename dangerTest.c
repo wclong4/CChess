@@ -5,11 +5,6 @@
 #include <assert.h>
 #include "danger.h"
 
-/** 
- * a little program to pinpoint differences in strings
- * 
-*/
-
 /**
  * A test for black king danger
  */
@@ -52,7 +47,7 @@ void blackKingTest()
   dangerCast(7, 7, board);
   char * actual2 = whiteDangerToString(board);
 
-  printf("%s", actual2);
+  //printf("%s", actual2);
   char expected2[999] = 
 "  0  1  2  3  4  5  6  7    \n"
 "7 0  1  0  0  0  0  1  0  7 \n"
@@ -118,7 +113,7 @@ void whiteKingTest()
   dangerCast(7, 7, board);
   char * actual2 = blackDangerToString(board);
 
-  printf("%s", actual2);
+  //printf("%s", actual2);
   char expected2[999] = 
 "  0  1  2  3  4  5  6  7    \n"
 "7 0  1  0  0  0  0  1  0  7 \n"
@@ -177,7 +172,7 @@ void blackRookTest() {
   Piece * pawn36 = makePiece(1, PAWN);
   board[3][6] = * pawn36;
 
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   // clear the previous danger states so we can test new ones
   clearDanger(board);
   dangerCast(3, 3, board);
@@ -255,6 +250,14 @@ void whiteRookTest() {
 "0 0  0  0  0  0  0  0  0  0 \n"
 "  0  1  2  3  4  5  6  7    \n";
   assert(strcmp(expected2, actual2) == 0);
+  free(rook33);
+  free(pawn53);
+  free(pawn32);
+  free(pawn13);
+  free(pawn36);
+  free(actual1);
+  free(actual2);
+  freeBoard(board);
 }
 void blackPawnTest() {
   Piece ** board = initEmptyBoard();
@@ -304,6 +307,9 @@ void whitePawnTest() {
   free(actual1);
   freeBoard(board);
 }
+/**
+ * test for black knight
+ */
 void blackKnightTest() {
   Piece ** board = initEmptyBoard();
   // y, x the coordinates for the board are backwards
@@ -352,14 +358,311 @@ void whiteKnightTest() {
   free(actual1);
   freeBoard(board);
 }
+/**
+ * test for white bishop
+ */
+void whiteBishopTest() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the king moveset
+  Piece * bishop33 = makePiece(0, BISHOP);
+  board[3][3] = * bishop33;
+  dangerCast(3, 3, board);
+
+  char * actual1 =  blackDangerToString(board);
+  //printf("BISHOP\n%s", actual1);
+  char expected1[999] = 
+"  0  1  2  3  4  5  6  7    \n"
+"7 0  0  0  0  0  0  0  1  7 \n"
+"6 1  0  0  0  0  0  1  0  6 \n"
+"5 0  1  0  0  0  1  0  0  5 \n"
+"4 0  0  1  0  1  0  0  0  4 \n"
+"3 0  0  0  0  0  0  0  0  3 \n"
+"2 0  0  1  0  1  0  0  0  2 \n"
+"1 0  1  0  0  0  1  0  0  1 \n"
+"0 1  0  0  0  0  0  1  0  0 \n"
+"  0  1  2  3  4  5  6  7    \n";
+  clearDanger(board);
+  assert(strcmp(expected1, actual1) == 0);
+
+  Piece * pawn55 = makePiece(0, PAWN);
+  board[5][5] = * pawn55;
+
+  Piece * pawn42 = makePiece(0, PAWN);
+  board[4][2] = * pawn42;
+
+  Piece * pawn00 = makePiece(0, PAWN);
+  board[0][0] = * pawn00;
+
+  Piece * pawn15 = makePiece(0, PAWN);
+  board[1][5] = * pawn15;
+  
+  dangerCast(3, 3, board);
+  char * actual2 =  blackDangerToString(board);
+  //printf("BISHOP\n%s", actual2);
+  char expected2[999] = 
+"  0  1  2  3  4  5  6  7    \n"
+"7 0  0  0  0  0  0  0  0  7 \n"
+"6 0  0  0  0  0  0  0  0  6 \n"
+"5 0  0  0  0  0  1  0  0  5 \n"
+"4 0  0  1  0  1  0  0  0  4 \n"
+"3 0  0  0  0  0  0  0  0  3 \n"
+"2 0  0  1  0  1  0  0  0  2 \n"
+"1 0  1  0  0  0  1  0  0  1 \n"
+"0 1  0  0  0  0  0  0  0  0 \n"
+"  0  1  2  3  4  5  6  7    \n";
+  assert(strcmp(expected2, actual2) == 0);
+
+  free(bishop33);
+  free(pawn55);
+  free(pawn42);
+  free(pawn00);
+  free(pawn15);
+
+  free(actual1);
+  free(actual2);
+
+  freeBoard(board);
+}
+/**
+ * test for black bishop
+ */
+void blackBishopTest() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the king moveset
+  Piece * bishop33 = makePiece(1, BISHOP);
+  board[3][3] = * bishop33;
+  dangerCast(3, 3, board);
+
+  char * actual1 =  whiteDangerToString(board);
+  //printf("BISHOP\n%s", actual1);
+  char expected1[999] = 
+"  0  1  2  3  4  5  6  7    \n"
+"7 0  0  0  0  0  0  0  1  7 \n"
+"6 1  0  0  0  0  0  1  0  6 \n"
+"5 0  1  0  0  0  1  0  0  5 \n"
+"4 0  0  1  0  1  0  0  0  4 \n"
+"3 0  0  0  0  0  0  0  0  3 \n"
+"2 0  0  1  0  1  0  0  0  2 \n"
+"1 0  1  0  0  0  1  0  0  1 \n"
+"0 1  0  0  0  0  0  1  0  0 \n"
+"  0  1  2  3  4  5  6  7    \n";
+  clearDanger(board);
+  assert(strcmp(expected1, actual1) == 0);
+
+  Piece * pawn55 = makePiece(0, PAWN);
+  board[5][5] = * pawn55;
+
+  Piece * pawn42 = makePiece(0, PAWN);
+  board[4][2] = * pawn42;
+
+  Piece * pawn00 = makePiece(0, PAWN);
+  board[0][0] = * pawn00;
+
+  Piece * pawn15 = makePiece(0, PAWN);
+  board[1][5] = * pawn15;
+  
+  dangerCast(3, 3, board);
+  char * actual2 =  whiteDangerToString(board);
+  //printf("BISHOP\n%s", actual2);
+  char expected2[999] = 
+"  0  1  2  3  4  5  6  7    \n"
+"7 0  0  0  0  0  0  0  0  7 \n"
+"6 0  0  0  0  0  0  0  0  6 \n"
+"5 0  0  0  0  0  1  0  0  5 \n"
+"4 0  0  1  0  1  0  0  0  4 \n"
+"3 0  0  0  0  0  0  0  0  3 \n"
+"2 0  0  1  0  1  0  0  0  2 \n"
+"1 0  1  0  0  0  1  0  0  1 \n"
+"0 1  0  0  0  0  0  0  0  0 \n"
+"  0  1  2  3  4  5  6  7    \n";
+  assert(strcmp(expected2, actual2) == 0);
+
+  free(bishop33);
+  free(pawn55);
+  free(pawn42);
+  free(pawn00);
+  free(pawn15);
+
+  free(actual1);
+  freeBoard(board);
+}
+/**
+ * test for black queen
+ */
+void blackQueenTest() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the king moveset
+  Piece * queen33 = makePiece(1, QUEEN);
+  board[3][3] = * queen33;
+  dangerCast(3, 3, board);
+
+  char * actual1 =  whiteDangerToString(board);
+  //printf("QUEEN\n%s", actual1);
+  char expected1[999] = 
+"  0  1  2  3  4  5  6  7    \n"
+"7 0  0  0  1  0  0  0  1  7 \n"
+"6 1  0  0  1  0  0  1  0  6 \n"
+"5 0  1  0  1  0  1  0  0  5 \n"
+"4 0  0  1  1  1  0  0  0  4 \n"
+"3 1  1  1  0  1  1  1  1  3 \n"
+"2 0  0  1  1  1  0  0  0  2 \n"
+"1 0  1  0  1  0  1  0  0  1 \n"
+"0 1  0  0  1  0  0  1  0  0 \n"
+"  0  1  2  3  4  5  6  7    \n";
+  assert(strcmp(expected1, actual1) == 0);
+  clearDanger(board);
+
+  Piece * pawn55 = makePiece(0, PAWN);
+  board[5][5] = * pawn55;
+
+  Piece * pawn42 = makePiece(0, PAWN);
+  board[4][2] = * pawn42;
+
+  Piece * pawn00 = makePiece(0, PAWN);
+  board[0][0] = * pawn00;
+
+  Piece * pawn15 = makePiece(0, PAWN);
+  board[1][5] = * pawn15;
+// rook moveset below
+  Piece * pawn53 = makePiece(1, PAWN);
+  board[5][3] = * pawn53;
+
+  Piece * pawn32 = makePiece(1, PAWN);
+  board[3][2] = * pawn32;
+
+  Piece * pawn13 = makePiece(1, PAWN);
+  board[1][3] = * pawn13;
+
+  Piece * pawn36 = makePiece(1, PAWN);
+  board[3][6] = * pawn36;
+
+  dangerCast(3, 3, board); // remember to actually run the danger cast
+
+  char * actual2 =  whiteDangerToString(board);
+
+  //printf("QUEEN\n%s", actual2);
+
+  char expected2[999] = 
+"  0  1  2  3  4  5  6  7    \n"
+"7 0  0  0  0  0  0  0  0  7 \n"
+"6 0  0  0  0  0  0  0  0  6 \n"
+"5 0  0  0  1  0  1  0  0  5 \n"
+"4 0  0  1  1  1  0  0  0  4 \n"
+"3 0  0  1  0  1  1  1  0  3 \n"
+"2 0  0  1  1  1  0  0  0  2 \n"
+"1 0  1  0  1  0  1  0  0  1 \n"
+"0 1  0  0  0  0  0  0  0  0 \n"
+"  0  1  2  3  4  5  6  7    \n";
+  assert(strcmp(expected2, actual2) == 0);
+  free(queen33);
+  free(pawn55);
+  free(pawn42);
+  free(pawn00);
+  free(pawn15);
+  free(pawn53);
+  free(pawn32);
+  free(pawn13);
+  free(pawn36);
+  free(actual1);
+  free(actual2);
+  freeBoard(board);
+}
+/**
+ * test for white queen
+ */
+void whiteQueenTest() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the king moveset
+  Piece * queen33 = makePiece(0, QUEEN);
+  board[3][3] = * queen33;
+  dangerCast(3, 3, board);
+
+  char * actual1 =  blackDangerToString(board);
+  //printf("QUEEN\n%s", actual1);
+  char expected1[999] = 
+"  0  1  2  3  4  5  6  7    \n"
+"7 0  0  0  1  0  0  0  1  7 \n"
+"6 1  0  0  1  0  0  1  0  6 \n"
+"5 0  1  0  1  0  1  0  0  5 \n"
+"4 0  0  1  1  1  0  0  0  4 \n"
+"3 1  1  1  0  1  1  1  1  3 \n"
+"2 0  0  1  1  1  0  0  0  2 \n"
+"1 0  1  0  1  0  1  0  0  1 \n"
+"0 1  0  0  1  0  0  1  0  0 \n"
+"  0  1  2  3  4  5  6  7    \n";
+  assert(strcmp(expected1, actual1) == 0);
+  clearDanger(board);
+
+  Piece * pawn55 = makePiece(0, PAWN);
+  board[5][5] = * pawn55;
+
+  Piece * pawn42 = makePiece(0, PAWN);
+  board[4][2] = * pawn42;
+
+  Piece * pawn00 = makePiece(0, PAWN);
+  board[0][0] = * pawn00;
+
+  Piece * pawn15 = makePiece(0, PAWN);
+  board[1][5] = * pawn15;
+// rook moveset below
+  Piece * pawn53 = makePiece(1, PAWN);
+  board[5][3] = * pawn53;
+
+  Piece * pawn32 = makePiece(1, PAWN);
+  board[3][2] = * pawn32;
+
+  Piece * pawn13 = makePiece(1, PAWN);
+  board[1][3] = * pawn13;
+
+  Piece * pawn36 = makePiece(1, PAWN);
+  board[3][6] = * pawn36;
+
+  dangerCast(3, 3, board); // remember to actually run the danger cast
+
+  char * actual2 =  blackDangerToString(board);
+
+  //printf("QUEEN\n%s", actual2);
+
+  char expected2[999] = 
+"  0  1  2  3  4  5  6  7    \n"
+"7 0  0  0  0  0  0  0  0  7 \n"
+"6 0  0  0  0  0  0  0  0  6 \n"
+"5 0  0  0  1  0  1  0  0  5 \n"
+"4 0  0  1  1  1  0  0  0  4 \n"
+"3 0  0  1  0  1  1  1  0  3 \n"
+"2 0  0  1  1  1  0  0  0  2 \n"
+"1 0  1  0  1  0  1  0  0  1 \n"
+"0 1  0  0  0  0  0  0  0  0 \n"
+"  0  1  2  3  4  5  6  7    \n";
+  assert(strcmp(expected2, actual2) == 0);
+  free(queen33);
+  free(pawn55);
+  free(pawn42);
+  free(pawn00);
+  free(pawn15);
+  free(pawn53);
+  free(pawn32);
+  free(pawn13);
+  free(pawn36);
+  free(actual1);
+  free(actual2);
+  freeBoard(board);
+}
 int main()
 {
   whiteKingTest();
   blackKingTest();
   blackRookTest();
+  whiteRookTest();
   whitePawnTest();
   blackPawnTest();
   blackKnightTest();
   whiteKnightTest();
-
+  whiteBishopTest();
+  blackQueenTest();
+  whiteQueenTest();
 }

@@ -245,6 +245,86 @@ static void knightDanger(int initx, int inity, Piece ** board) {
   }
 }
 /**
+ * checks danger for the bishop
+ * @param initx the initial x position
+ * @param inity the initial y position
+ *
+ * @param board the chess board
+*/
+static void bishopDanger(int initx, int inity, Piece ** board) {
+  bool bColor = board[inity][initx].dark;
+      // check that nothing collides with the bishop when it moves
+    // up and right ++
+    int x = initx + 1;
+    for (int y = inity + 1; y <= 7 && x <= 7; y++) {
+      // [y][x]
+      if (bColor) { // if dark
+        board[y][x].inDangerWhite = 1;
+      } else { // if light
+        board[y][x].inDangerBlack = 1;
+      }
+      if (board[y][x].type != 0) { // break out of loop if there is a piece there
+        break; // because it blocks line of sight
+      }
+      x++;
+    }
+    // +-
+    x = initx + 1;
+    for (int y = inity - 1; y >= 0 && x <= 7; y--) {
+      // [y][x]
+      if (bColor) { // if dark
+        board[y][x].inDangerWhite = 1;
+      } else { // if light
+        board[y][x].inDangerBlack = 1;
+      }
+      if (board[y][x].type != 0) { // break out of loop if there is a piece there
+        break; // because it blocks line of sight
+      }
+      x++;
+    }
+    // -+
+    x = initx - 1;
+    for (int y = inity + 1; y <= 7 && x >= 0; y++) {
+      // [y][x]
+      if (bColor) { // if dark
+        board[y][x].inDangerWhite = 1;
+      } else { // if light
+        board[y][x].inDangerBlack = 1;
+      }
+      if (board[y][x].type != 0) { // break out of loop if there is a piece there
+        break; // because it blocks line of sight
+      }
+      x--;
+    }
+    // --
+    x = initx - 1;
+    for (int y = inity - 1; y >= 0 && x >= 0; y--) {
+      // [y][x]
+      if (bColor) { // if dark
+        board[y][x].inDangerWhite = 1;
+      } else { // if light
+        board[y][x].inDangerBlack = 1;
+      }
+      if (board[y][x].type != 0) { // break out of loop if there is a piece there
+        break; // because it blocks line of sight
+      }
+      x--;
+    }
+
+}
+/**
+ * checks danger for the queen
+ * @param initx the initial x position
+ * @param inity the initial y position
+ *
+ * @param board the chess board
+*/
+static void queenDanger(int initx, int inity, Piece ** board) {
+  // just a combination of rook and bishop danger
+  rookDanger(initx, inity, board);
+  bishopDanger(initx, inity, board);
+}
+/**
  * Updates the danger states of the board using the given piece at
  * x, y on the board.
  * @param initx the x value of the piece we are using to update danger states
@@ -253,10 +333,6 @@ static void knightDanger(int initx, int inity, Piece ** board) {
  */
 void dangerCast(int initx, int inity, Piece ** board) {
   Piece piece = board[inity][initx];
-  // if someone tries to move an empty space then return false
-  if (piece.type == 0) {
-    return false;
-  }
   // specific checks for different pieces
   // these delegate their responsibilities to other methods in this class
   if (piece.type == KING) {
@@ -266,7 +342,7 @@ void dangerCast(int initx, int inity, Piece ** board) {
     rookDanger(initx, inity, board);
   }
   if (piece.type == QUEEN) {
-    // queenDanger(initx, inity, board);
+    queenDanger(initx, inity, board);
   }
   if (piece.type == PAWN) {
     pawnDanger(initx, inity, board);
@@ -275,122 +351,7 @@ void dangerCast(int initx, int inity, Piece ** board) {
     knightDanger(initx, inity, board);
   }
   if (piece.type == BISHOP) {
-    // bishopDanger(initx, inity, board);
+    bishopDanger(initx, inity, board);
   }
 }
 
-
-/**
- * checks danger for the bishop
- * @param initx the initial x position
- * @param inity the initial y position
- * @param finalx the final x position
- * @param finaly the final y position
- * @param board the chess board
-
-static void bishopDanger(int initx, int inity, int finalx, int finaly, Piece ** board) {
-  // check if the absolute value of the difference is the same for both of them
-  int deltaX = finalx - initx;
-  int deltaY = finaly - inity;
-  if (!(abs(deltaX) == abs(deltaY))) {
-    return false;
-  }
-  // weirdly enough, we don't need to do bounds checking here because the bounds checking was already done
-  bool bColor = board[inity][initx].dark;
-  // ++
-  if (finaly > inity && finalx > initx) {
-    // check that nothing collides with the bishop when it moves
-    int x = initx + 1;
-    for (int y = inity + 1; y <= finaly; y++) {
-      // [y][x]
-      if (board[y][x].type != 0) { // if something is there we return false
-        // unless there is an opposite colored piece at the final position, then we return true
-        if (board[y][x].dark != bColor && y == finaly) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-      x++;
-    }
-    
-    // if nothing was there then we are good
-    return true;
-  }
-  // +-
-  if (finaly > inity && finalx < initx) {
-    // check that nothing collides with the bishop when it moves
-    int x = initx - 1;
-    for (int y = inity + 1; y <= finaly; y++) {
-      // [y][x]
-      if (board[y][x].type != 0) { // if something is there we return false
-        // unless there is an opposite colored piece at the final position, then we return true
-        if (board[y][x].dark != bColor && y == finaly) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-      x--;
-    }
-    
-    // if nothing was there then we are good
-    return true;
-  }
-
-  // -+
-  if (finaly < inity && finalx > initx) {
-    // check that nothing collides with the bishop when it moves
-    int x = initx + 1;
-    for (int y = inity - 1; y >= finaly; y--) {
-      // [y][x]
-      if (board[y][x].type != 0) { // if something is there we return false
-        // unless there is an opposite colored piece at the final position, then we return true
-        if (board[y][x].dark != bColor && y == finaly) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-      x++;
-    }
-    
-    // if nothing was there then we are good
-    return true;
-  }
-  // --
-    if (finaly < inity && finalx < initx) {
-    // check that nothing collides with the bishop when it moves
-    int x = initx - 1;
-    for (int y = inity - 1; y >= finaly; y--) {
-      // [y][x]
-      if (board[y][x].type != 0) { // if something is there we return false
-        // unless there is an opposite colored piece at the final position, then we return true
-        if (board[y][x].dark != bColor && y == finaly) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-      x--;
-    }
-    
-    // if nothing was there then we are good
-    return true;
-  }
-  return false;
-}
-/**
- * checks danger for the queen
- * @param initx the initial x position
- * @param inity the initial y position
- * @param finalx the final x position
- * @param finaly the final y position
- * @param board the chess board
-
-static void queenDanger(int initx, int inity, int finalx, int finaly, Piece ** board) {
-  // just a combination of rook or bishop check
-  return (rookCheck(initx, inity, finalx, finaly, board) || bishopCheck(initx, inity, finalx, finaly, board));
-}
-
-*/

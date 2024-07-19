@@ -245,3 +245,124 @@ void debugPrintBoard(Piece ** board) {
     printf("\n");
   }
 }
+
+void whiteDangerPrintBoard(Piece ** board) {
+  // y is horizontal x is vertical
+  for (int y = 9; y >= 0 ; y--) {
+    for (int x = 0; x < 10 ; x++) {
+      if (y < 9 && x < 9 && x > 0 && y > 0) {
+        bool wDanger = board[y - 1][x - 1].inDangerWhite;
+        printf("%d  ", wDanger);
+      } else if ((x == 0 || x == 9 ) && (y < 9 && y > 0)){
+        printf("%d ", y - 1);
+      } else if ((y == 0 || y == 9 ) && (x < 9 && x > 0)) {
+        printf("%d  ", x - 1);
+      } else {
+        printf("  ");
+      }
+    }
+    printf("\n");
+  }
+}
+/**
+ * This creates a string version of the board showing white danger states
+*/
+char * whiteDangerToString(Piece ** board) {
+    // Allocate a string with a small, initial capacity.
+    int capacity = START_SIZE;
+    char * buffer = malloc(capacity * sizeof(char));
+    if (buffer == NULL) {
+        // Handle allocation failure
+        return NULL;
+    }
+    // Initialize the buffer to avoid garbage values.
+    memset(buffer, 0, capacity * sizeof(char));
+    int len = 0;
+    // y is vertical, x is horizontal
+    for (int y = 9; y >= 0 ; y--) {
+      for (int x = 0; x < 10 ; x++) {
+      // Ensure there is enough space for new characters and the null terminator.
+      if (len + 4 >= capacity) { // +4 for 3 characters and a null terminator
+        capacity *= DOUBLE;
+        char * tempbuffer = realloc(buffer, capacity * sizeof(char));
+        if (tempbuffer == NULL) {
+          // Handle reallocation failure
+          free(buffer);
+          return NULL;
+        }
+        buffer = tempbuffer;
+      }
+      if (y < 9 && x < 9 && x > 0 && y > 0) {
+        bool wDanger = board[y - 1][x - 1].inDangerWhite;
+        buffer[len++] = wDanger + '0';
+        buffer[len++] = ' ';
+        buffer[len++] = ' ';
+      } else if ((x == 0 || x == 9 ) && (y < 9 && y > 0)){
+        buffer[len++] = y - 1 + '0';
+        buffer[len++] = ' ';
+      } else if ((y == 0 || y == 9 ) && (x < 9 && x > 0)) {
+        buffer[len++] = x + '0' - 1;
+        buffer[len++] = ' ';
+        buffer[len++] = ' ';
+      } else {
+        buffer[len++] = ' ';
+        buffer[len++] = ' ';
+      }
+    }
+    buffer[len] = '\n';
+    len++;
+  }
+  buffer[len] = '\0';
+  return buffer;
+}
+/**
+ * This creates a string version of the board showing black danger states
+*/
+char * blackDangerToString(Piece ** board) {
+    // Allocate a string with a small, initial capacity.
+    int capacity = START_SIZE;
+    char * buffer = malloc(capacity * sizeof(char));
+    if (buffer == NULL) {
+        // Handle allocation failure
+        return NULL;
+    }
+    // Initialize the buffer to avoid garbage values.
+    memset(buffer, 0, capacity * sizeof(char));
+    int len = 0;
+    // y is vertical, x is horizontal
+    for (int y = 9; y >= 0 ; y--) {
+      for (int x = 0; x < 10 ; x++) {
+      // Ensure there is enough space for new characters and the null terminator.
+      if (len + 4 >= capacity) { // +4 for 3 characters and a null terminator
+        capacity *= DOUBLE;
+        char * tempbuffer = realloc(buffer, capacity * sizeof(char));
+        if (tempbuffer == NULL) {
+          // Handle reallocation failure
+          free(buffer);
+          return NULL;
+        }
+        buffer = tempbuffer;
+      }
+      if (y < 9 && x < 9 && x > 0 && y > 0) {
+        bool wDanger = board[y - 1][x - 1].inDangerBlack;
+        buffer[len++] = wDanger + '0';
+        buffer[len++] = ' ';
+        buffer[len++] = ' ';
+      } else if ((x == 0 || x == 9 ) && (y < 9 && y > 0)){
+        buffer[len++] = y - 1 + '0';
+        buffer[len++] = ' ';
+      } else if ((y == 0 || y == 9 ) && (x < 9 && x > 0)) {
+        buffer[len++] = x + '0' - 1;
+        buffer[len++] = ' ';
+        buffer[len++] = ' ';
+      } else {
+        buffer[len++] = ' ';
+        buffer[len++] = ' ';
+      }
+    }
+    buffer[len] = '\n';
+    len++;
+  }
+  buffer[len] = '\0';
+  return buffer;
+}

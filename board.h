@@ -34,3 +34,18 @@ Piece ** initEmptyBoard();
  * This uses array coordinates as coordinates instead of 1-8 and a-h
 */
 void debugPrintBoard(Piece ** board);
+/**
+ * This uses array coordinates as coordinates instead of 1-8 and a-h
+ * and prints white danger states
+*/
+void whiteDangerPrintBoard(Piece ** board);
+/**
+ * This uses array coordinates as coordinates instead of 1-8 and a-h
+ * and gives a char * that shows white danger states
+*/
+char * whiteDangerToString(Piece ** board);
+/**
+ * This uses array coordinates as coordinates instead of 1-8 and a-h
+ * and gives a char * that shows black danger states
+*/
+char * blackDangerToString(Piece ** board);

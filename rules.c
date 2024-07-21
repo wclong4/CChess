@@ -159,7 +159,7 @@ static bool kingCheck(int initx, int inity, int finalx, int finaly, Piece ** boa
   if (finalx == initx - 1 || finalx == initx || finalx == initx + 1 ) {
     if (finaly == inity - 1 || finaly == inity || finaly == inity + 1 ) {
       // the king cannot move into squares that are in danger
-      if (board[finaly][finalx].inDangerBlack == false) {
+      if (board[finaly][finalx].inDangerWhite == false) {
         // it can move into empty safe spaces
         if (board[finaly][finalx].type == 0) {
           return true;
@@ -546,7 +546,13 @@ bool blackCheckCheck(Piece ** board) {
   }
   return false;
 }
+/**
+ * This checks for stalemate
+ * @param board the board to check for stalemate
+ */
+bool stalemateCheck(Piece ** board) {
 
+}
 bool validMove(int initx, int inity, int finalx, int finaly, Piece ** board) {
   Piece piece = board[inity][initx];
   // if someone tries to move an empty space then return false

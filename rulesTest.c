@@ -1967,6 +1967,96 @@ void checkMovementTest3() {
   free(queen41);
 
 }
+void checkMovementTest4() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(0, KING);
+  board[0][4] = * king04;
+
+  Piece * rook43 = makePiece(1, ROOK);
+  board[4][3] = * rook43;
+  updateDanger(board);
+  debugPrintBoard(board);
+  whiteDangerPrintBoard(board);
+  bool m1 = validMove(4, 0, 3, 0, board);
+  bool m2 = validMove(4, 0, 3, 1, board);
+  bool m3 = validMove(4, 0, 4, 1, board);
+  bool m4 = validMove(4, 0, 5, 1, board);
+  bool m5 = validMove(4, 0, 5, 0, board);
+
+  assert(!m1);
+  assert(!m2);
+  assert(m3);
+  assert(m4);
+  assert(m5);
+
+  freeBoard(board);
+  free(king04);
+  free(rook43);
+}
+void checkMovementTest5() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(0, KING);
+  board[0][4] = * king04;
+
+  Piece * rook44 = makePiece(1, ROOK);
+  board[4][4] = * rook44;
+
+  Piece * queen41 = makePiece(1, QUEEN);
+  board[1][4] = * queen41;
+  updateDanger(board);
+  //printBoard(board);
+  //blackDangerPrintBoard(board);
+  bool m1 = validMove(4, 0, 3, 0, board);
+  bool m2 = validMove(4, 0, 3, 1, board);
+  bool m3 = validMove(4, 0, 4, 1, board);
+  bool m4 = validMove(4, 0, 5, 1, board);
+  bool m5 = validMove(4, 0, 5, 0, board);
+
+  assert(!m1);
+  assert(!m2);
+  assert(!m3);
+  assert(!m4);
+  assert(!m5);
+
+  freeBoard(board);
+  free(king04);
+  free(queen41);
+  free(rook44);
+
+}
+void checkMovementTest6() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(0, KING);
+  board[0][4] = * king04;
+
+  Piece * queen41 = makePiece(1, QUEEN);
+  board[1][4] = * queen41;
+  updateDanger(board);
+  //printBoard(board);
+  //blackDangerPrintBoard(board);
+  bool m1 = validMove(4, 0, 3, 0, board);
+  bool m2 = validMove(4, 0, 3, 1, board);
+  bool m3 = validMove(4, 0, 4, 1, board);
+  bool m4 = validMove(4, 0, 5, 1, board);
+  bool m5 = validMove(4, 0, 5, 0, board);
+
+  assert(!m1);
+  assert(!m2);
+  assert(m3);
+  assert(!m4);
+  assert(!m5);
+
+  freeBoard(board);
+  free(king04);
+  free(queen41);
+
+}
 int main()
 {
   kingTest1();
@@ -1996,5 +2086,8 @@ int main()
   checkMovementTest1();
   checkMovementTest2();
   checkMovementTest3();
+  checkMovementTest4();
+  checkMovementTest5();
+  checkMovementTest6();
 
 }

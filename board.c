@@ -125,6 +125,44 @@ Piece ** initEmptyBoard() {
   return board;
 }
 /**
+ * duplicates board state
+ * @param src the source
+ * @param the destination
+ */
+void boardCopy(Piece ** dest, Piece ** src) 
+{
+  for (int x = 0; x < 8; x++) {
+    for (int y = 0; y < 8; y++) {
+      dest[y][x].dark = src[y][x].dark;
+      dest[y][x].enPassantAble = src[y][x].enPassantAble;
+      dest[y][x].hasMoved = src[y][x].hasMoved;
+      dest[y][x].inDangerBlack = src[y][x].inDangerBlack;
+      dest[y][x].inDangerWhite = src[y][x].inDangerWhite;
+      dest[y][x].type = src[y][x].type;
+    }
+  }
+}
+/**
+ * Will move a piece, DOES NOT CHECK FOR MOVE VALIDITY!!!
+ * Use carefully.
+ * @param initx the initial x value
+ * @param inity the initial y value
+ * @param board the board
+ * 
+ */
+void movePiece(int initx, int inity, int finalx, int finaly, Piece ** board) 
+{
+  // move piece
+  board[finaly][finalx] = board[inity][initx];
+  // set initial position to empty/all zeros
+  board[inity][initx].dark = 0;
+  board[inity][initx].enPassantAble = 0;
+  board[inity][initx].hasMoved = 0;
+  board[inity][initx].inDangerBlack = 0;
+  board[inity][initx].inDangerWhite = 0;
+  board[inity][initx].type = 0;
+}
+/**
  * Destroys the board
  * 
  * I referenced this because the way I initialized this was based
@@ -252,6 +290,24 @@ void whiteDangerPrintBoard(Piece ** board) {
     for (int x = 0; x < 10 ; x++) {
       if (y < 9 && x < 9 && x > 0 && y > 0) {
         bool wDanger = board[y - 1][x - 1].inDangerWhite;
+        printf("%d  ", wDanger);
+      } else if ((x == 0 || x == 9 ) && (y < 9 && y > 0)){
+        printf("%d ", y - 1);
+      } else if ((y == 0 || y == 9 ) && (x < 9 && x > 0)) {
+        printf("%d  ", x - 1);
+      } else {
+        printf("  ");
+      }
+    }
+    printf("\n");
+  }
+}
+void blackDangerPrintBoard(Piece ** board) {
+  // y is horizontal x is vertical
+  for (int y = 9; y >= 0 ; y--) {
+    for (int x = 0; x < 10 ; x++) {
+      if (y < 9 && x < 9 && x > 0 && y > 0) {
+        bool wDanger = board[y - 1][x - 1].inDangerBlack;
         printf("%d  ", wDanger);
       } else if ((x == 0 || x == 9 ) && (y < 9 && y > 0)){
         printf("%d ", y - 1);

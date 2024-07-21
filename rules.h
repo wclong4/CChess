@@ -1,4 +1,4 @@
-#include "board.h"
+#include "danger.h"
 
 /**
  * This checks if a move is valid by first checking if it has valid coordinates.
@@ -13,3 +13,13 @@
  * @param board the chess board
 */
 bool validMove(int initx, int inity, int finalx, int finaly, Piece ** board);
+/**
+ * Checks if the white king is in check or not
+ * @param board the board to check for check
+ */
+bool whiteCheckCheck(Piece ** board);
+/**
+ * Checks if the black king is in check or not
+ * @param board the board to check for check
+ */
+bool blackCheckCheck(Piece ** board);

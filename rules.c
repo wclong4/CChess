@@ -4,7 +4,7 @@
  * TODO: add checks for collision with moves (like not being able to move when blocked)
  * TODO: add checks for check and checkmate
 */
-#include "piece.h"
+#include "rules.h"
 
 
 /**
@@ -516,6 +516,37 @@ static bool queenCheck(int initx, int inity, int finalx, int finaly, Piece ** bo
   // just a combination of rook or bishop check
   return (rookCheck(initx, inity, finalx, finaly, board) || bishopCheck(initx, inity, finalx, finaly, board));
 }
+/**
+ * Checks if the white king is in check or not
+ * @param board the board to check for check
+ */
+bool whiteCheckCheck(Piece ** board) {
+  for (int x = 0; x < 8; x++) {
+    for (int y = 0; y < 8; y++) {
+      // if the type is king, and the king is white and in danger, then we have check for white
+      if (board[y][x].type == KING && !board[y][x].dark && board[y][x].inDangerWhite) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+/**
+ * Checks if the black king is in check or not
+ * @param board the board to check for check
+ */
+bool blackCheckCheck(Piece ** board) {
+  for (int x = 0; x < 8; x++) {
+    for (int y = 0; y < 8; y++) {
+      // if the type is king, and the king is white and in danger, then we have check for white
+      if (board[y][x].type == KING && board[y][x].dark && board[y][x].inDangerBlack) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 bool validMove(int initx, int inity, int finalx, int finaly, Piece ** board) {
   Piece piece = board[inity][initx];
   // if someone tries to move an empty space then return false
@@ -534,7 +565,39 @@ bool validMove(int initx, int inity, int finalx, int finaly, Piece ** board) {
   if (initx == finalx && inity == finaly) {
     return false;
   }
-  
+  // there should be another check here for check, if a move does not get you out of check then it is 
+  // not a valid move
+  if (piece.dark) { // if black
+    // carry out move with duplicate board and see if it puts black in check
+    Piece ** duplicateBoard = initEmptyBoard();
+    boardCopy(duplicateBoard, board);
+    movePiece(initx, initx, finalx, finaly, duplicateBoard);
+    // make sure that the danger states are accurate after the move
+    updateDanger(duplicateBoard);
+    // if this move puts black into check then it is invalid so we return false
+    if (blackCheckCheck(duplicateBoard)) {
+      // make sure to free memory
+      freeBoard(duplicateBoard);
+      return false;
+    }
+    // make sure to free memory
+    freeBoard(duplicateBoard);
+  } else { // if white
+    // carry out move with duplicate board and see if it puts black in check
+    Piece ** duplicateBoard = initEmptyBoard();
+    boardCopy(duplicateBoard, board);
+    movePiece(initx, initx, finalx, finaly, duplicateBoard);
+    // make sure that the danger states are accurate after the move
+    updateDanger(duplicateBoard);
+    // if this move puts black into check then it is invalid so we return false
+    if (whiteCheckCheck(duplicateBoard)) {
+      // make sure to free memory
+      freeBoard(duplicateBoard);
+      return false;
+    }
+    // make sure to free memory
+    freeBoard(duplicateBoard);
+  }
   // specific checks for different pieces
   // these delegate their responsibilities to other methods in this class
   if (piece.type == KING) {

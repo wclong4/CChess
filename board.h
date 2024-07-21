@@ -41,6 +41,11 @@ void debugPrintBoard(Piece ** board);
 void whiteDangerPrintBoard(Piece ** board);
 /**
  * This uses array coordinates as coordinates instead of 1-8 and a-h
+ * and prints black danger states
+*/
+void blackDangerPrintBoard(Piece ** board);
+/**
+ * This uses array coordinates as coordinates instead of 1-8 and a-h
  * and gives a char * that shows white danger states
 */
 char * whiteDangerToString(Piece ** board);
@@ -49,3 +54,18 @@ char * whiteDangerToString(Piece ** board);
  * and gives a char * that shows black danger states
 */
 char * blackDangerToString(Piece ** board);
+/**
+ * duplicates board state
+ * @param src the source
+ * @param the destination
+ */
+void boardCopy(Piece ** dest, Piece ** src);
+/**
+ * Will move a piece, DOES NOT CHECK FOR MOVE VALIDITY!!!
+ * Use carefully.
+ * @param initx the initial x value
+ * @param inity the initial y value
+ * @param board the board
+ * 
+ */
+void movePiece(int initx, int inity, int finalx, int finaly, Piece ** board);

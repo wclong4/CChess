@@ -20,7 +20,7 @@ void kingTest1()
   // also this is the test for the king moveset
   Piece * king33 = makePiece(1, KING);
   board[3][3] = * king33;
-  debugPrintBoard(board);
+  //debugPrintBoard(board);
   bool actualMove1 = validMove(3,3,3+1,3,board);
 
   bool actualMove2 = validMove(3,3,3,3+1,board);
@@ -1828,6 +1828,145 @@ void knightTest() {
   freeBoard(board);
 
 }
+void checkTest1() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(0, KING);
+  board[0][4] = * king04;
+
+  Piece * rook44 = makePiece(0, ROOK);
+  board[4][4] = * rook44;
+  dangerCast(4, 4, board);
+
+  assert(!whiteCheckCheck(board));
+  assert(!blackCheckCheck(board));
+  clearDanger(board);
+
+  board[4][4].dark = 1;
+  dangerCast(4, 4, board);
+
+  assert(whiteCheckCheck(board));
+  assert(!blackCheckCheck(board));
+
+  free(king04);
+  free(rook44);
+  freeBoard(board);
+}
+void checkTest2() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(1, KING);
+  board[0][4] = * king04;
+
+  Piece * rook44 = makePiece(1, ROOK);
+  board[4][4] = * rook44;
+  dangerCast(4, 4, board);
+
+  assert(!whiteCheckCheck(board));
+  assert(!blackCheckCheck(board));
+  clearDanger(board);
+
+  board[4][4].dark = 0;
+  dangerCast(4, 4, board);
+
+  assert(!whiteCheckCheck(board));
+  assert(blackCheckCheck(board));
+
+  free(king04);
+  free(rook44);
+  freeBoard(board);
+}
+void checkMovementTest1() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(1, KING);
+  board[0][4] = * king04;
+
+  Piece * rook43 = makePiece(0, ROOK);
+  board[4][3] = * rook43;
+  updateDanger(board);
+
+  bool m1 = validMove(4, 0, 3, 0, board);
+  bool m2 = validMove(4, 0, 3, 1, board);
+  bool m3 = validMove(4, 0, 4, 1, board);
+  bool m4 = validMove(4, 0, 5, 1, board);
+  bool m5 = validMove(4, 0, 5, 0, board);
+
+  assert(!m1);
+  assert(!m2);
+  assert(m3);
+  assert(m4);
+  assert(m5);
+
+  freeBoard(board);
+  free(king04);
+  free(rook43);
+}
+void checkMovementTest2() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(1, KING);
+  board[0][4] = * king04;
+
+  Piece * rook44 = makePiece(0, ROOK);
+  board[4][4] = * rook44;
+
+  Piece * queen41 = makePiece(0, QUEEN);
+  board[1][4] = * queen41;
+  updateDanger(board);
+  //printBoard(board);
+  //blackDangerPrintBoard(board);
+  bool m1 = validMove(4, 0, 3, 0, board);
+  bool m2 = validMove(4, 0, 3, 1, board);
+  bool m3 = validMove(4, 0, 4, 1, board);
+  bool m4 = validMove(4, 0, 5, 1, board);
+  bool m5 = validMove(4, 0, 5, 0, board);
+
+  assert(!m1);
+  assert(!m2);
+  assert(!m3);
+  assert(!m4);
+  assert(!m5);
+
+  freeBoard(board);
+  free(king04);
+  free(queen41);
+  free(rook44);
+
+}
+void checkMovementTest3() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(1, KING);
+  board[0][4] = * king04;
+
+  Piece * queen41 = makePiece(0, QUEEN);
+  board[1][4] = * queen41;
+  updateDanger(board);
+  //printBoard(board);
+  //blackDangerPrintBoard(board);
+  bool m1 = validMove(4, 0, 3, 0, board);
+  bool m2 = validMove(4, 0, 3, 1, board);
+  bool m3 = validMove(4, 0, 4, 1, board);
+  bool m4 = validMove(4, 0, 5, 1, board);
+  bool m5 = validMove(4, 0, 5, 0, board);
+
+  assert(!m1);
+  assert(!m2);
+  assert(m3);
+  assert(!m4);
+  assert(!m5);
+
+  freeBoard(board);
+  free(king04);
+  free(queen41);
+
+}
 int main()
 {
   kingTest1();
@@ -1851,4 +1990,11 @@ int main()
   blackPawnTest();
   whitePawnTest();
   knightTest();
+
+  checkTest1();
+  checkTest2();
+  checkMovementTest1();
+  checkMovementTest2();
+  checkMovementTest3();
+
 }

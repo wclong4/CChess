@@ -16,3 +16,8 @@ void clearDanger(Piece ** board);
  * @param board the board for which we are updating danger states
  */
 void dangerCast(int initx, int inity, Piece ** board);
+/**
+ * This updates the danger states of the board
+ * @param board the board to update 
+ */
+void updateDanger(Piece ** board);

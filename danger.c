@@ -197,11 +197,20 @@ static void pawnDanger(int initx, int inity, Piece ** board) {
   //                 p
   Piece pawn = board[inity][initx];
   if (pawn.dark) { // if is dark
-    board[inity + 1][initx + 1].inDangerWhite = 1;
-    board[inity + 1][initx - 1].inDangerWhite = 1;
+    // need to check the bounds
+    if (inity + 1 < 8 && initx + 1 < 8) {
+      board[inity + 1][initx + 1].inDangerWhite = 1;
+    }
+    if (inity + 1 < 8 && initx - 1 > 0) {
+      board[inity + 1][initx - 1].inDangerWhite = 1;
+    }
   } else { // if light
-    board[inity - 1][initx + 1].inDangerBlack = 1;
-    board[inity - 1][initx - 1].inDangerBlack = 1;
+    if (inity - 1 > 0 && initx + 1 < 8) {
+      board[inity - 1][initx + 1].inDangerBlack = 1;
+    }
+    if (inity - 1 > 0 && initx - 1 > 0) {
+      board[inity - 1][initx - 1].inDangerBlack = 1;
+    }
   }
 }
 /**
@@ -217,31 +226,56 @@ static void knightDanger(int initx, int inity, Piece ** board) {
   // ++
   Piece * knight = &board[inity][initx];
   if (knight->dark) { // if dark
-    board[inity + 2][initx + 1].inDangerWhite = 1; // set white danger
-    board[inity + 1][initx + 2].inDangerWhite = 1;
-
-    board[inity - 2][initx + 1].inDangerWhite = 1;
-    board[inity - 1][initx + 2].inDangerWhite = 1;
-
-    board[inity + 2][initx - 1].inDangerWhite = 1;
-    board[inity + 1][initx - 2].inDangerWhite = 1;
-
-    board[inity - 2][initx - 1].inDangerWhite = 1;
-    board[inity - 1][initx - 2].inDangerWhite = 1;
+    if (inity + 2 <= 7 && inity + 2 >= 0 && initx + 1 <= 7 && initx + 1 >= 0 ) {
+      board[inity + 2][initx + 1].inDangerWhite = 1; // set white danger
+    }
+    if (inity + 1 <= 7 && inity + 1 >= 0 && initx + 2 <= 7 && initx + 2 >= 0 ) {
+      board[inity + 1][initx + 2].inDangerWhite = 1;
+    }
+    if (inity - 2 <= 7 && inity - 2 >= 0 && initx + 1 <= 7 && initx + 1 >= 0 ) {
+      board[inity - 2][initx + 1].inDangerWhite = 1;
+    }
+    if (inity - 1 <= 7 && inity - 1 >= 0 && initx + 2 <= 7 && initx + 2 >= 0 ) {
+      board[inity - 1][initx + 2].inDangerWhite = 1;
+    }
+    if (inity + 2 <= 7 && inity + 2 >= 0 && initx - 1 <= 7 && initx - 1 >= 0 ) {
+      board[inity + 2][initx - 1].inDangerWhite = 1;
+    }
+    if (inity + 1 <= 7 && inity + 1 >= 0 && initx - 2 <= 7 && initx - 2 >= 0 ) {
+      board[inity + 1][initx - 2].inDangerWhite = 1;
+    }
+    if (inity - 2 <= 7 && inity - 2 >= 0 && initx - 1 <= 7 && initx - 1 >= 0 ) {
+      board[inity - 2][initx - 1].inDangerWhite = 1;
+    }
+    if (inity - 1 <= 7 && inity - 1 >= 0 && initx - 2 <= 7 && initx - 2 >= 0 ) {
+      board[inity - 1][initx - 2].inDangerWhite = 1;
+    }
 
   } else { // if light
-    board[inity + 2][initx + 1].inDangerBlack = 1; // set black danger
-    board[inity + 1][initx + 2].inDangerBlack = 1;
-
-    board[inity - 2][initx + 1].inDangerBlack = 1;
-    board[inity - 1][initx + 2].inDangerBlack = 1;
-
-    board[inity + 2][initx - 1].inDangerBlack = 1;
-    board[inity + 1][initx - 2].inDangerBlack = 1;
-
-    board[inity - 2][initx - 1].inDangerBlack = 1;
-    board[inity - 1][initx - 2].inDangerBlack = 1;
-
+    if (inity + 2 <= 7 && inity + 2 >= 0 && initx + 1 <= 7 && initx + 1 >= 0 ) {
+      board[inity + 2][initx + 1].inDangerBlack = 1; // set black danger
+    }
+    if (inity + 1 <= 7 && inity + 1 >= 0 && initx + 2 <= 7 && initx + 2 >= 0 ) {
+      board[inity + 1][initx + 2].inDangerBlack = 1;
+    }
+    if (inity - 2 <= 7 && inity - 2 >= 0 && initx + 1 <= 7 && initx + 1 >= 0 ) {
+      board[inity - 2][initx + 1].inDangerBlack = 1;
+    }
+    if (inity - 1 <= 7 && inity - 1 >= 0 && initx + 2 <= 7 && initx + 2 >= 0 ) {
+      board[inity - 1][initx + 2].inDangerBlack = 1;
+    }
+    if (inity + 2 <= 7 && inity + 2 >= 0 && initx - 1 <= 7 && initx - 1 >= 0 ) {
+      board[inity + 2][initx - 1].inDangerBlack = 1;
+    }
+    if (inity + 1 <= 7 && inity + 1 >= 0 && initx - 2 <= 7 && initx - 2 >= 0 ) {
+      board[inity + 1][initx - 2].inDangerBlack = 1;
+    }
+    if (inity - 2 <= 7 && inity - 2 >= 0 && initx - 1 <= 7 && initx - 1 >= 0 ) {
+      board[inity - 2][initx - 1].inDangerBlack = 1;
+    }
+    if (inity - 1 <= 7 && inity - 1 >= 0 && initx - 2 <= 7 && initx - 2 >= 0 ) {
+      board[inity - 1][initx - 2].inDangerBlack = 1;
+    }
   }
 }
 /**
@@ -324,6 +358,7 @@ static void queenDanger(int initx, int inity, Piece ** board) {
   rookDanger(initx, inity, board);
   bishopDanger(initx, inity, board);
 }
+
 /**
  * Updates the danger states of the board using the given piece at
  * x, y on the board.
@@ -332,6 +367,9 @@ static void queenDanger(int initx, int inity, Piece ** board) {
  * @param board the board for which we are updating danger states
  */
 void dangerCast(int initx, int inity, Piece ** board) {
+  if (initx < 0 || initx > 7 || inity < 0 || inity > 7) {
+    return; // end the danger cast if there are invalid parameters
+  }
   Piece piece = board[inity][initx];
   // specific checks for different pieces
   // these delegate their responsibilities to other methods in this class
@@ -352,6 +390,18 @@ void dangerCast(int initx, int inity, Piece ** board) {
   }
   if (piece.type == BISHOP) {
     bishopDanger(initx, inity, board);
+  }
+}
+/**
+ * This updates the danger states of the board
+ * @param board the board to update 
+ */
+void updateDanger(Piece ** board) {
+  clearDanger(board);
+  for (int y = 0; y < 8 ; y++) {
+    for (int x = 0; x < 8 ; x++) {
+      dangerCast(x, y, board);
+    }
   }
 }
 

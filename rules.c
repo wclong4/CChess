@@ -547,11 +547,72 @@ bool blackCheckCheck(Piece ** board) {
   return false;
 }
 /**
- * This checks for stalemate
+ * 
+ * This is used as a prerequisite to check for stalemate or checkmate
+ * 
+ * It checks if white is unable to move
+ * 
  * @param board the board to check for stalemate
+ * @return false if there is a move that can be made, and true if there is no move that can be made
  */
-bool stalemateCheck(Piece ** board) {
-
+bool noMoveCheckWhite(Piece ** b) {
+  Piece ** board = initEmptyBoard();
+  boardCopy(board, b);
+  updateDanger(board);
+  // this is massively inefficient, but it should work
+  // but this seriously needs to be optimized
+  // I could just check only certain positions that could be valid
+  // instead of checking all positions
+  // but I am too lazy to implement that now
+  for (int ix = 0; ix < 8; ix++) {
+    for (int iy = 0; iy < 8; iy++) {
+      for (int fx = 0; fx < 8; fx++) {
+        for (int fy = 0; fy < 8; fy++) {
+          if (board[iy][ix].type != 0 && board[iy][ix].dark == 0 && validMove(ix, iy, fx, fy, board)) {
+            // if there are any valid moves for white then there is not a stalemate
+            free(board);
+            return false;
+          }
+        }
+      }
+    }
+  }
+  free(board);
+  return true;
+}
+/**
+ * 
+ * This is used as a prerequisite to check for stalemate or checkmate
+ * 
+ * It checks if black is unable to move
+ * 
+ * @param board the board to check for stalemate
+ * @return false if there is a move that can be made, and true if there is no move that can be made
+ */
+bool noMoveCheckBlack(Piece ** b) {
+  Piece ** board = initEmptyBoard();
+  boardCopy(board, b);
+  updateDanger(board);
+  // this is massively inefficient, but it should work
+  // but this seriously needs to be optimized
+  // I could just check only certain positions that could be valid
+  // instead of checking all positions
+  // but I am too lazy to implement that now
+  for (int ix = 0; ix < 8; ix++) {
+    for (int iy = 0; iy < 8; iy++) {
+      for (int fx = 0; fx < 8; fx++) {
+        for (int fy = 0; fy < 8; fy++) {
+          if (board[iy][ix].type != 0 && board[iy][ix].dark == 1 && validMove(ix, iy, fx, fy, board)) {
+            // if there are any valid moves for white then there is not a stalemate
+            free(board);
+            return false;
+          }
+        }
+      }
+    }
+  }
+  free(board);
+  return true;
 }
 bool validMove(int initx, int inity, int finalx, int finaly, Piece ** board) {
   Piece piece = board[inity][initx];
@@ -571,7 +632,7 @@ bool validMove(int initx, int inity, int finalx, int finaly, Piece ** board) {
   if (initx == finalx && inity == finaly) {
     return false;
   }
-  // there should be another check here for check, if a move does not get you out of check then it is 
+  // there is a check here for check, if a move does not get you out of check then it is 
   // not a valid move
   if (piece.dark) { // if black
     // carry out move with duplicate board and see if it puts black in check

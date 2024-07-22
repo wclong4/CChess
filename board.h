@@ -1,4 +1,6 @@
 #include "piece.h"
+/** The size of the board */
+#define BOARD_SIZE 8
 
 /**
  * This initilized a new board with all pieces in their normal position
@@ -69,3 +71,7 @@ void boardCopy(Piece ** dest, Piece ** src);
  * 
  */
 void movePiece(int initx, int inity, int finalx, int finaly, Piece ** board);
+/**
+ * This prints out the board, from the perspective of black
+*/
+void printBoardBlack(Piece ** board);

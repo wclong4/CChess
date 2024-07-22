@@ -200,6 +200,32 @@ void printBoard(Piece ** board) {
   }
 }
 /**
+ * This prints out the board, from the perspective of black
+*/
+void printBoardBlack(Piece ** board) {
+  // y is horizontal x is vertical
+  for (int y = 9; y >= 0 ; y--) {
+    for (int x = 0; x < 10 ; x++) {
+      if (y < 9 && x < 9 && x > 0 && y > 0) {
+        char type = board[y - 1][x - 1].type;
+        bool dark = board[y - 1][x - 1].dark;
+        if (type != 0 || dark != 0) {
+          printf("%c%d ", type, dark);
+        } else {
+          printf("0  ");
+        }
+      } else if ((x == 0 || x == 9 ) && (y < 9 && y > 0)){
+        printf("%d ", 9 - y);
+      } else if ((y == 0 || y == 9 ) && (x < 9 && x > 0)) {
+        printf("%c  ", x + 'a' - 1);
+      } else {
+        printf("  ");
+      }
+    }
+    printf("\n");
+  }
+}
+/**
  * This creates a string version of the board
 */
 char * toStringBoard(Piece ** board) {

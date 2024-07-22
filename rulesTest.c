@@ -2057,6 +2057,108 @@ void checkMovementTest6() {
   free(queen41);
 
 }
+void noMoveCheckWhiteTest1() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(0, KING);
+  board[0][4] = * king04;
+
+  Piece * rook44 = makePiece(1, ROOK);
+  board[4][4] = * rook44;
+
+  Piece * queen41 = makePiece(1, QUEEN);
+  board[1][4] = * queen41;
+
+  assert(noMoveCheckWhite(board));
+  board[1][4].dark = 0;
+  assert(!noMoveCheckWhite(board));
+  board[4][4].dark = 0;
+  assert(!noMoveCheckWhite(board));
+  //debugPrintBoard(board);
+  freeBoard(board);
+  free(king04);
+  free(queen41);
+  free(rook44);
+}
+void noMoveCheckWhiteTest2() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(0, KING);
+  board[0][4] = * king04;
+
+  Piece * rook45 = makePiece(1, ROOK);
+  board[4][5] = * rook45;
+
+  Piece * rook43 = makePiece(1, ROOK);
+  board[4][3] = * rook43;
+
+  Piece * queen10 = makePiece(1, QUEEN);
+  board[1][0] = * queen10;
+
+  assert(noMoveCheckWhite(board));
+  board[4][3].dark = 0;
+  assert(!noMoveCheckWhite(board));
+  //debugPrintBoard(board);
+  freeBoard(board);
+  free(king04);
+  free(rook45);
+  free(rook43);
+  free(queen10);
+
+}
+void noMoveCheckBlackTest1() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(1, KING);
+  board[0][4] = * king04;
+
+  Piece * rook44 = makePiece(0, ROOK);
+  board[4][4] = * rook44;
+
+  Piece * queen41 = makePiece(0, QUEEN);
+  board[1][4] = * queen41;
+
+  assert(noMoveCheckBlack(board));
+  board[1][4].dark = 1;
+  assert(!noMoveCheckBlack(board));
+  board[4][4].dark = 1;
+  assert(!noMoveCheckBlack(board));
+  //debugPrintBoard(board);
+  freeBoard(board);
+  free(king04);
+  free(queen41);
+  free(rook44);
+}
+void noMoveCheckBlackTest2() {
+  Piece ** board = initEmptyBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  Piece * king04 = makePiece(1, KING);
+  board[0][4] = * king04;
+
+  Piece * rook45 = makePiece(0, ROOK);
+  board[4][5] = * rook45;
+
+  Piece * rook43 = makePiece(0, ROOK);
+  board[4][3] = * rook43;
+
+  Piece * queen10 = makePiece(0, QUEEN);
+  board[1][0] = * queen10;
+
+  assert(noMoveCheckBlack(board));
+  board[4][3].dark = 1;
+  assert(!noMoveCheckBlack(board));
+  //debugPrintBoard(board);
+  freeBoard(board);
+  free(king04);
+  free(rook45);
+  free(rook43);
+  free(queen10);
+
+}
 int main()
 {
   kingTest1();
@@ -2090,4 +2192,8 @@ int main()
   checkMovementTest5();
   checkMovementTest6();
 
+  noMoveCheckWhiteTest1();
+  noMoveCheckWhiteTest2();
+  noMoveCheckBlackTest1();
+  noMoveCheckBlackTest2();
 }

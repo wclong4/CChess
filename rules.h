@@ -23,3 +23,21 @@ bool whiteCheckCheck(Piece ** board);
  * @param board the board to check for check
  */
 bool blackCheckCheck(Piece ** board);
+/**
+ * 
+ * This is used as a prerequisite to check for stalemate or checkmate
+ * 
+ * It checks if white is unable to move
+ * 
+ * @param board the board to check for stalemate
+ */
+bool noMoveCheckWhite(Piece ** board);
+/**
+ * 
+ * This is used as a prerequisite to check for stalemate or checkmate
+ * 
+ * It checks if white is unable to move
+ * 
+ * @param board the board to check for stalemate
+ */
+bool noMoveCheckBlack(Piece ** board);

@@ -67,4 +67,4 @@ Piece * makePiece(bool dark, char type);
 /**
  * This frees the piece
  */
-Piece * freePiece(Piece * piece);
+void freePiece(Piece * piece);

@@ -16,10 +16,11 @@ Piece * makePiece(bool dark, char type) {
   piece->inDangerWhite = false;
   piece->inDangerBlack = false;
   piece->enPassantAble = false;
+  return piece;
 }
 /**
  * This frees the piece
  */
-Piece * freePiece(Piece * piece) {
+void freePiece(Piece * piece) {
   free(piece);
 }

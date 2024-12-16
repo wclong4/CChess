@@ -12,6 +12,8 @@ int parseXCoordinate(char * string) {
     }
     i++;
   }
+  // we failed somehow
+  return -1;
 }
 /**
  * This parses input from the user
@@ -25,6 +27,8 @@ int parseYCoordinate(char * string) {
     }
     i++;
   }
+  // we failed somehow
+  return -1;
 }
 /**
  * This performs the actions necessary for white's turn

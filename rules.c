@@ -685,4 +685,6 @@ bool validMove(int initx, int inity, int finalx, int finaly, Piece ** board) {
   if (piece.type == BISHOP) {
     return bishopCheck(initx, inity, finalx, finaly, board);
   }
+  // something went wrong
+  return false;
 }

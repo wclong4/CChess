@@ -108,7 +108,33 @@ void blackTurn(Piece ** board) {
     }
   }
 }
-
+/**
+ * This method checks for checkmate and stalemate
+ * @param board the board to check
+ * @return true if the game is over, false if it continues
+ */
+bool checkmateAndStalemateCheck(Piece ** board) {
+  // check for checkmate and stalemate
+  if (noMoveCheckBlack(board)) {
+    if (blackCheckCheck(board)) {
+      printf("%s\n", "Checkmate, white wins!");
+      return true;
+    } else {
+      printf("%s\n", "Stalemate");
+      return true;
+    }
+  }
+  if (noMoveCheckWhite(board)) {
+    if (whiteCheckCheck(board)) {
+      printf("%s\n", "Checkmate, black wins!");
+      return true;
+    } else {
+      printf("%s\n", "Stalemate");
+      return true;
+    }
+  }
+  return false;
+}
 /**
  * This is the main component and it makes sure that the code can actually be run.
  * @param argc the number of args
@@ -120,30 +146,17 @@ int main(int argc, char *argv[]) {
   printf("%s\n", "Otherwise, you play by inputting initial and final coordinates for a piece");
   printf("%s\n", "to move a piece.");
   while(true) {
-    // check for checkmate and stalemate
-    if (noMoveCheckBlack(board)) {
-      if (blackCheckCheck(board)) {
-        printf("%s\n", "Checkmate, white wins!");
-        break;
-      } else {
-        printf("%s\n", "Stalemate");
-        break;
-      }
-    }
-    if (noMoveCheckWhite(board)) {
-      if (blackCheckCheck(board)) {
-        printf("%s\n", "Checkmate, black wins!");
-        break;
-      } else {
-        printf("%s\n", "Stalemate");
-        break;
-      }
+    if (checkmateAndStalemateCheck(board)) {
+      break;
     }
     printf("%s\n", "White's turn");
     printBoard(board);
     //debugPrintBoard(board);
     // white's turn
     whiteTurn(board);
+    if (checkmateAndStalemateCheck(board)) {
+      break;
+    }
     printf("%s\n", "Black's turn");
     printBoardBlack(board);
     blackTurn(board);

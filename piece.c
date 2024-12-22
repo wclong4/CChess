@@ -16,6 +16,26 @@ Piece * makePiece(bool dark, char type) {
   piece->inDangerWhite = false;
   piece->inDangerBlack = false;
   piece->enPassantAble = false;
+  // set up piece value
+  if (piece->type == KING) {
+    piece->value = 9999;
+  }
+  if (piece->type == ROOK) {
+    piece->value = ROOK_VAL;
+  }
+  if (piece->type == QUEEN) {
+    piece->value = QUEEN_VAL;
+  }
+  if (piece->type == PAWN) {
+    piece->value = PAWN_VAL;
+  }
+  if (piece->type == KNIGHT) {
+    piece->value = KNIGHT_VAL;
+  }
+  if (piece->type == BISHOP) {
+    piece->value = BISHOP_VAL;
+  }
+  // return our piece
   return piece;
 }
 /**

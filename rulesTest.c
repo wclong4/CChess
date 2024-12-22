@@ -2108,6 +2108,42 @@ void noMoveCheckWhiteTest2() {
   free(queen10);
 
 }
+// literally just fool's mate
+void noMoveCheckWhiteTest3() {
+  Piece ** board = initBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  // white turn
+  assert(!noMoveCheckBlack(board));
+  assert(!noMoveCheckWhite(board));
+  
+  movePiece(5, 6, 5, 5, board);
+  updateDanger(board);
+  //debugPrintBoard(board);
+  assert(!noMoveCheckBlack(board));
+  assert(!noMoveCheckWhite(board));
+  // black turn
+  movePiece(4, 1, 4, 2, board);
+  updateDanger(board);
+  assert(!noMoveCheckBlack(board));
+  assert(!noMoveCheckWhite(board));
+  //debugPrintBoard(board);
+  // white turn
+  movePiece(6, 6, 6, 4, board);
+  updateDanger(board);
+  assert(!noMoveCheckBlack(board));
+  assert(!noMoveCheckWhite(board));
+  // black turn
+  //debugPrintBoard(board);
+  movePiece(3, 0, 7, 4, board);
+  updateDanger(board);
+
+  assert(!noMoveCheckBlack(board));
+  assert(noMoveCheckWhite(board));
+
+  //debugPrintBoard(board);
+  freeBoard(board);
+}
 void noMoveCheckBlackTest1() {
   Piece ** board = initEmptyBoard();
   // y, x the coordinates for the board are backwards
@@ -2159,6 +2195,44 @@ void noMoveCheckBlackTest2() {
   free(queen10);
 
 }
+
+// literally just fool's mate
+void noMoveCheckBlackTest3() {
+  Piece ** board = initBoard();
+  // y, x the coordinates for the board are backwards
+  // also this is the test for the knight moveset
+  // white turn
+  assert(!noMoveCheckBlack(board));
+  assert(!noMoveCheckWhite(board));
+
+  movePiece(5, 1, 5, 2, board);
+  updateDanger(board);
+  //printBoard(board);
+  assert(!noMoveCheckBlack(board));
+  assert(!noMoveCheckWhite(board));
+  // black turn
+  movePiece(4, 6, 4, 4, board);
+  updateDanger(board);
+  assert(!noMoveCheckBlack(board));
+  assert(!noMoveCheckWhite(board));
+  //printBoard(board);
+  // white turn
+  movePiece(6, 1, 6, 3, board);
+  updateDanger(board);
+  assert(!noMoveCheckBlack(board));
+  assert(!noMoveCheckWhite(board));
+  // black turn
+  //printBoard(board);
+  movePiece(3, 7, 7, 3, board);
+  updateDanger(board);
+  //printBoard(board);
+
+  assert(!noMoveCheckWhite(board));
+  assert(noMoveCheckBlack(board));
+
+  //debugPrintBoard(board);
+  freeBoard(board);
+}
 int main()
 {
   kingTest1();
@@ -2194,6 +2268,9 @@ int main()
 
   noMoveCheckWhiteTest1();
   noMoveCheckWhiteTest2();
+  noMoveCheckWhiteTest3();
+
   noMoveCheckBlackTest1();
   noMoveCheckBlackTest2();
+  noMoveCheckBlackTest3();
 }

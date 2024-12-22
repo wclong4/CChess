@@ -547,6 +547,314 @@ bool blackCheckCheck(Piece ** board) {
   return false;
 }
 /**
+ * Checks if the king can move
+ * @param b the board to check
+ * @param ix the x coord of the king
+ * @param iy the y coord of the king
+ * @return false if there are no valid moves
+ */
+bool kingMoveCheck(Piece ** b, int ix, int iy) {
+  // check all the reasonable moves for the king so
+  //  ***
+  // **k**
+  //  ***
+  // the extra moves on the side are for castling
+  if (validMove(ix, iy, ix + 1, iy + 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix + 1, iy - 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix - 1, iy + 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix - 1, iy - 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix + 1, iy + 0, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix + 0, iy + 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix - 1, iy + 0, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix + 0, iy - 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix + 2, iy + 0, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix - 2, iy + 0, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  return false;
+}
+/**
+ * Checks if the pawn can move
+ * @param b the board to check
+ * @param ix the x coord of the pawn
+ * @param iy the y coord of the pawn
+ * @return false if there are no valid moves
+ */
+bool pawnMoveCheck(Piece ** b, int ix, int iy) {
+  // check all the reasonable moves for the pawn so
+  //  *
+  // ***
+  //  p
+  // ***
+  //  *
+  // remember that it is flipped for black so we check both the white and black moveset
+  // black moveset
+  if (validMove(ix, iy, ix + 0, iy + 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix + 0, iy + 2, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix - 1, iy + 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix + 1, iy + 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+
+  // white moveset
+  if (validMove(ix, iy, ix + 0, iy - 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix + 0, iy - 2, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix - 1, iy - 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix + 1, iy - 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  return false;
+}
+/**
+ * Checks if the rook can move
+ * @param b the board to check
+ * @param ix the x coord of the rook
+ * @param iy the y coord of the rook
+ * @return false if there are no valid moves
+ */
+bool rookMoveCheck(Piece ** b, int ix, int iy) {
+  // check all the reasonable moves for the rook so
+  //   *
+  //  *r*
+  //   *
+  // I am not drawing this all out, you can fill in the pieces
+  for (int i = 0; i < 8; i++) {
+    if (validMove(ix, iy, ix + i, iy + 0, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix - i, iy + 0, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix + 0, iy - i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix + 0, iy + i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+  }
+  return false;
+}
+/**
+ * Checks if the bishop can move
+ * @param b the board to check
+ * @param ix the x coord of the bishop
+ * @param iy the y coord of the bishop
+ * @return false if there are no valid moves
+ */
+bool bishopMoveCheck(Piece ** b, int ix, int iy) {
+  // check all the reasonable moves for the bishop so
+  //  * *
+  //   b
+  //  * *
+  // I am not drawing this all out, you can fill in the pieces
+  for (int i = 0; i < 8; i++) {
+    if (validMove(ix, iy, ix + i, iy + i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix - i, iy + i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix + i, iy - i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix - i, iy - i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+  }
+  return false;
+}
+/**
+ * Checks if the queen can move
+ * @param b the board to check
+ * @param ix the x coord of the queen
+ * @param iy the y coord of the queen
+ * @return false if there are no valid moves
+ */
+bool queenMoveCheck(Piece ** b, int ix, int iy) {
+  // check all the reasonable moves for the queen so
+  //  ***
+  //  *b*
+  //  ***
+  // and so on and so forth, it's a queen
+  // I am not drawing this all out, you can fill in the pieces
+  // just check the bishop and rook moves
+  for (int i = 0; i < 8; i++) {
+    if (validMove(ix, iy, ix + i, iy + i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix - i, iy + i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix + i, iy - i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix - i, iy - i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix + i, iy + 0, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix - i, iy + 0, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix + 0, iy - i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+    if (validMove(ix, iy, ix + 0, iy + i, b)) {
+      // if there are any valid moves then there is not a stalemate
+      
+      return true;
+    }
+  }
+  return false;
+}
+/**
+ * Checks if the king can move
+ * @param b the board to check
+ * @param ix the x coord of the king
+ * @param iy the y coord of the king
+ * @return false if there are no valid moves
+ */
+bool knightMoveCheck(Piece ** b, int ix, int iy) {
+  // check all the reasonable moves for the king so
+  // ***
+  // *k*
+  // ***
+  if (validMove(ix, iy, ix + 1, iy + 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix + 1, iy - 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix - 1, iy + 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix - 1, iy - 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    
+    return true;
+  }
+  if (validMove(ix, iy, ix + 1, iy + 0, b)) {
+    // if there are any valid moves then there is not a stalemate
+    return true;
+  }
+  if (validMove(ix, iy, ix + 0, iy + 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    return true;
+  }
+  if (validMove(ix, iy, ix - 1, iy + 0, b)) {
+    // if there are any valid moves then there is not a stalemate
+    return true;
+  }
+  if (validMove(ix, iy, ix + 0, iy - 1, b)) {
+    // if there are any valid moves then there is not a stalemate
+    return true;
+  }
+  return false;
+}
+/**
  * 
  * This is used as a prerequisite to check for stalemate or checkmate
  * 
@@ -566,13 +874,41 @@ bool noMoveCheckWhite(Piece ** b) {
   // but I am too lazy to implement that now
   for (int ix = 0; ix < 8; ix++) {
     for (int iy = 0; iy < 8; iy++) {
-      for (int fx = 0; fx < 8; fx++) {
-        for (int fy = 0; fy < 8; fy++) {
-          if (board[iy][ix].type != 0 && board[iy][ix].dark == 0 && validMove(ix, iy, fx, fy, board)) {
-            // if there are any valid moves for white then there is not a stalemate
-            free(board);
-            return false;
-          }
+      // check that the piece is white
+      if (board[iy][ix].dark != 0) {
+        // skip this iteration if we are black
+        continue;
+      }
+      // different checks for different pieces
+      if (board[iy][ix].type == KING) {
+        // if there is a move, return false because we can move
+        if (kingMoveCheck(board, ix, iy)) {
+          return false;
+        }
+      }
+      if (board[iy][ix].type == ROOK) {
+        if (rookMoveCheck(board, ix, iy)) {
+          return false;
+        }
+      }
+      if (board[iy][ix].type == QUEEN) {
+        if (queenMoveCheck(board, ix, iy)) {
+          return false;
+        }
+      }
+      if (board[iy][ix].type == PAWN) {
+        if (pawnMoveCheck(board, ix, iy)) {
+          return false;
+        }
+      }
+      if (board[iy][ix].type == KNIGHT) {
+        if (knightMoveCheck(board, ix, iy)) {
+          return false;
+        }
+      }
+      if (board[iy][ix].type == BISHOP) {
+        if (bishopMoveCheck(board, ix, iy)) {
+          return false;
         }
       }
     }
@@ -600,13 +936,41 @@ bool noMoveCheckBlack(Piece ** b) {
   // but I am too lazy to implement that now
   for (int ix = 0; ix < 8; ix++) {
     for (int iy = 0; iy < 8; iy++) {
-      for (int fx = 0; fx < 8; fx++) {
-        for (int fy = 0; fy < 8; fy++) {
-          if (board[iy][ix].type != 0 && board[iy][ix].dark == 1 && validMove(ix, iy, fx, fy, board)) {
-            // if there are any valid moves for white then there is not a stalemate
-            free(board);
-            return false;
-          }
+      // check that the piece is black
+      if (board[iy][ix].dark != 1) {
+        // skip this iteration if we are white
+        continue;
+      }
+      // different checks for different pieces
+      if (board[iy][ix].type == KING) {
+        // if there is a move, return false because we can move
+        if (kingMoveCheck(board, ix, iy)) {
+          return false;
+        }
+      }
+      if (board[iy][ix].type == ROOK) {
+        if (rookMoveCheck(board, ix, iy)) {
+          return false;
+        }
+      }
+      if (board[iy][ix].type == QUEEN) {
+        if (queenMoveCheck(board, ix, iy)) {
+          return false;
+        }
+      }
+      if (board[iy][ix].type == PAWN) {
+        if (pawnMoveCheck(board, ix, iy)) {
+          return false;
+        }
+      }
+      if (board[iy][ix].type == KNIGHT) {
+        if (knightMoveCheck(board, ix, iy)) {
+          return false;
+        }
+      }
+      if (board[iy][ix].type == BISHOP) {
+        if (bishopMoveCheck(board, ix, iy)) {
+          return false;
         }
       }
     }

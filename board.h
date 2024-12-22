@@ -1,6 +1,12 @@
 #include "piece.h"
 /** The size of the board */
 #define BOARD_SIZE 8
+// got values from here https://arxiv.org/pdf/2009.04374
+#define PAWN_VAL 3.05
+#define KNIGHT_VAL 3.05
+#define BISHOP_VAL 3.33
+#define ROOK_VAL 5.63
+#define QUEEN_VAL 9.5
 
 /**
  * This initilized a new board with all pieces in their normal position

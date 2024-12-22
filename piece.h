@@ -26,6 +26,13 @@
 /** Piece type char for a bishop */
 #define BISHOP 'b'
 
+// got values from here https://arxiv.org/pdf/2009.04374
+#define PAWN_VAL 3.05
+#define KNIGHT_VAL 3.05
+#define BISHOP_VAL 3.33
+#define ROOK_VAL 5.63
+#define QUEEN_VAL 9.5
+
 typedef struct {
   /** True if dark piece */
   bool dark;
@@ -57,6 +64,10 @@ typedef struct {
    * Used specifically for pawns, true if a pawn has just moved forwards 2 spaces
    */
   bool enPassantAble;
+  /**
+  * the value of the piece
+  */
+  bool value;
 
 } Piece;
 

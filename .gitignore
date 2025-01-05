@@ -4,3 +4,5 @@ rulesTest
 pieceTest
 boardTest
 *.o
+.vscode
+bin

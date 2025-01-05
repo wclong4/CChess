@@ -1,9 +1,7 @@
 # Chess
 An implementation of chess in C
 
-I don't really know how I want to approach this.  I have not done a project in C for more than a month.  My first idea is to have a struct for pieces with all the necessary information like color, and type.  There will be a 2D array that represents the board, and text files will be used to save and read in info about the board state.  Different pieces will be represented as different letters when saved or loaded in.  
+There are five c files that are fully implemented and tested, board.c, driver.c, piece.c, danger.c, and rules.c.  These names are pretty self explanatory, board handles the board, driver handles the driver, piece handles the pieces, danger handles checking the danger states of the board (which squares are dangerous for which player), and rules handles checking if moves are valid and making sure that moves are carried out correctly.  There are also tests for these files and a makefile you can use to make a runnable program.  I have done some preliminary work on the AI for the game, but it doesn't work yet.  
 
-A player will be allowed to enter any move they want and if that move is not valid the system will output that it is not valid and then request new input.  The chess board will be represented in the command line and the moves will be inputted using a modified version of algebraic notation for chess where each move is designated by a piece to move and a destination (like a2 to a3).  
-
-There are four separate c files, board.c, driver.c, piece.c, and rules.c.  These names are pretty self explanatory, board handles the board, driver handles the driver, piece handles the pieces, and rules handles checking if moves are valid and making sure that moves are carried out correctly.  
+If you want to run this program go to where the program's files are located, type make, and press enter in the terminal, then type ./driver and press enter.  You should be able to play chess against yourself or another player on the same terminal.  If you want to quit press ctrl^c.
 
